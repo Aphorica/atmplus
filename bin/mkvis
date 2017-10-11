@@ -1,0 +1,18 @@
+#! /bin/sh
+BABEL_ARGS='--no-babelrc --presets=env,stage-3'
+babel $BABEL_ARGS bin/visualize --out-file bin/visualize_run
+ex - bin/visualize_run << EDIT
+:/INTEROP
+:s/INTEROP/_interopRequireDefault/
+:wq
+EDIT
+chmod 755 bin/visualize_run
+pushd ./bin
+NAMES='atm-main atm-transaction'
+for NAME in $NAMES
+do
+  echo "running: $NAME"
+  babel $BABEL_ARGS ../src/fsm_defs/$NAME.js --out-file ./$NAME.js
+  ./visualize_run $NAME.js | dot -Tsvg -o ../docs/state_graphs/$NAME.svg
+done
+popd

@@ -1,20 +1,16 @@
 #! /usr/local/bin/node
-let StateMachine = require('javascript-state-machine');
-let visualize = require('javascript-state-machine/lib/visualize')
-
-if (process.argv.length < 3) {
-  process.stdout.write(
-    'Usage: visualize <fn>\n' +
-    'where:\n' +
-    ' fn: input filename.\n'
-  );
-
-  process.exit(0);
+function load(fn) {
+  let _fn = require(fn)
+  let _fn2 = INTEROP(_fn);
+  return _fn2.default
 }
 
+let fsm = load('./' + process.argv[2]);
+
+import StateMachine from 'javascript-state-machine';
+import visualize from 'javascript-state-machine/lib/visualize';
+
 try {
-  let FSM_DEF = require('./' + process.argv[2]);
-  let fsm = new StateMachine(FSM_DEF);
   let outstr = visualize(fsm);
   process.stdout.write(outstr);
 } catch(e) {

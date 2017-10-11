@@ -10,8 +10,8 @@ export default new StateMachine({
     { name: 'card-inserted', from: 'ready',                     to: 'pin' },
     { name: 'confirm',     from: 'pin',               to: 'action-selection' },
     { name: 'reject',      from: 'pin',               to: 'pin-error' },
-    { name: 'retry-pin-ok',   from: 'pin-error',      to: 'action-selection' },
-    { name: 'retry-pin-failed', from: 'pin-error', to: 'pin-error' },
+    { name: 'confirm',   from: 'pin-error',      to: 'action-selection' },
+    { name: 'reject', from: 'pin-error', to: 'pin-error' },
     { name: 'card-returned',    from: 'return-card',               to: 'ready' },
 
     { name: 'deposit',     from: 'action-selection',             to: 'deposit-transaction' },

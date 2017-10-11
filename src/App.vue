@@ -17,9 +17,10 @@ export default {
   created() {
     let self = this;
     mainFSM.observe('onEnterState', function(info) { 
-         console.log('State Changed'); 
-         console.log(info);
-         self.$router.push({name: info.to});
+        console.log('State Changed'); 
+        console.log(info);
+        if (self.$router.getMatchedComponents('info.to').length > 0)
+          self.$router.push({name: info.to});
        }) ;
     this.$store.commit('PUSH_FSM', mainFSM);
   }
