@@ -1,0 +1,2 @@
+#! /bin/sh
+./visualize ../src/fsm_defs/atm-transaction | dot -Tsvg -o ../docs/state_graphs/atm-transaction.svg

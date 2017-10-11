@@ -1,0 +1,2 @@
+#! /bin/sh
+./visualize ../src/fsm_defs/atm-main | dot -Tsvg -o ../docs/state_graphs/atm-main.svg
