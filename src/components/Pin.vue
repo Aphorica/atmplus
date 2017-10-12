@@ -23,7 +23,6 @@
 <script>
 export default {
   created() {
-    console.log('in Pin.vue -- created()');
     this.accounts = this.$store.getters.accounts;
   },
   name: 'pin',

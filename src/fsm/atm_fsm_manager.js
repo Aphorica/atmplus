@@ -15,7 +15,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   setupTransaction(info) {
     this.pushFSM(atm_transaction_fsm);
     let fsm = this.currentFSM();
-    fsm.type = info.name;
+    fsm.type = info.transition;
     fsm.init(); 
   }
 }
