@@ -7,12 +7,21 @@ ex - bin/visualize_run << EDIT
 :wq
 EDIT
 chmod 755 bin/visualize_run
+##
 pushd ./bin
-NAMES='atm-main atm-transaction'
-for NAME in $NAMES
+FILES='atm-main atm-transaction fsm_dot_styles'
+for FILE in $FILES
 do
-  echo "running: $NAME"
-  babel $BABEL_ARGS ../src/fsm_defs/$NAME.js --out-file ./$NAME.js
-  ./visualize_run $NAME.js | dot -Tsvg -o ../docs/state_graphs/$NAME.svg
+  echo "transpiling: $FILE"
+  babel $BABEL_ARGS ../src/fsm/$FILE.js --out-file ./$FILE.js
+done
+##
+RUNNABLES='atm-main atm-transaction'
+for RUNNABLE in $RUNNABLES
+do
+  echo "running: $RUNNABLE"
+  ./visualize_run $RUNNABLE.js >$RUNNABLE.dot
+  ex $RUNNABLE.dot <$RUNNABLE.ex
+  dot -Tsvg -o ../docs/state_graphs/$RUNNABLE.svg $RUNNABLE.dot
 done
 popd
