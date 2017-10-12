@@ -10,19 +10,12 @@
 </template>
 
 <script>
-import mainFSM from './fsm_defs/atm-main';
+import mainFSM from './fsm/atm-main';
 
 export default {
   name: 'app',
   created() {
-    let self = this;
-    mainFSM.observe('onEnterState', function(info) { 
-        console.log('State Changed'); 
-        console.log(info);
-        if (self.$router.getMatchedComponents('info.to').length > 0)
-          self.$router.push({name: info.to});
-       }) ;
-    this.$store.commit('PUSH_FSM', mainFSM);
+    this.$fsm_manager.pushFSM(mainFSM);
   }
 }
 </script>

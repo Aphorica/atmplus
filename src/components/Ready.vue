@@ -25,7 +25,7 @@ export default {
   }},
   methods:  {
     cardSelected: function(event) {
-      let fsm = this.$store.getters.current_fsm;
+      let fsm = this.$fsm_manager.currentFSM();
       this.card_inserted = true;
       this.$store.commit('SET_CURRENT_CUSTOMER_ID', event.target.value);
       setTimeout(function() {

@@ -10,25 +10,16 @@ const state = {
     '7777': { name: 'Mary', balances: { checking: 120.00, savings: 200.00 } },
     '5491': { name: 'Jane', balances: { checking: 75.00, savings: 320.00 } }
   },
-  fsm: [],
   currentCustomerID: ''
 };
 
 const getters = {
   accounts: (state) => { return state.accounts; },
-  current_fsm: (state) => { return state.fsm.length > 0? state.fsm[state.fsm.length - 1] : null; },
   currentCustomerAcctInfo: (state) => { return state.accounts[state.currentCustomerID]; },
-  currentCustomerID: (state) => { return state.currentCustomerID; }
+  currentCustomerID: (state) => { return state.currentCustomerID; },
 };
 
 const mutations = {
-  PUSH_FSM: (state, fsm) => {
-    state.fsm.push(fsm);
-  },
-  POP_FSM: (state) => {
-    fsm = state.fsm.pop();
-  },
-
   UPDATE_BALANCE: (state, info) => {
     let customerInfo = state.accounts[info.id];
     customerInfo.balances[info.account] += info.amount;

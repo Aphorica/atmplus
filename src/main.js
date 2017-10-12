@@ -5,12 +5,15 @@ import App from './App';
 import router from './router';
 
 import store from './store/store.js';
+import ATM_FSM_Manager from './fsm/atm_fsm_manager.js';
 
 import customer_component from './components/Customer.vue';
 
 Vue.config.productionTip = false;
 
 Vue.component('customer', customer_component);
+
+Vue.prototype.$fsm_manager = new ATM_FSM_Manager(router);
 
 /* eslint-disable no-new */
 new Vue({

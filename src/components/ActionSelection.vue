@@ -3,8 +3,8 @@
     <div>
       <h4>Select Action</h4>
       <div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selected('deposit')">Deposit</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selected('withdrawal')">Deposit</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectTransaction('deposit')">Deposit</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectTransaction('withdraw')">Withdrawal</button>
       </div>
     </div>
     <customer></customer>
@@ -12,11 +12,17 @@
 </template>
 
 <script>
+import new_fsm from '../fsm/atm-transaction';
+
 export default {
   name: 'ActionSelection',
   methods: {
-    selected: function(which) {
-      console.log('in ActionSelection: ' + which + ' selected');
+    selectTransaction: function(type) {
+      let currentFSM = this.$fsm_manager.currentFSM();
+      if (type === 'deposit')
+        currentFSM.deposit();
+      else if (type === 'withdraw')
+        currentFSM.withdraw();
     }
   }
 }

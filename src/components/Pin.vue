@@ -2,16 +2,16 @@
   <section>
     <div>
       <h4>Enter Your Pin</h4>
-      <form>
+      <form v-on:submit.prevent="pinEntered()">
         <div class="mdl-textfield mdl-js-textfield" id="pin-input-wrapper">
-          <input class="mdl-textfield__input" pattern="[0-9]{4}" type="number"
+          <input class="mdl-textfield__input" 
                  id="pin-input" maxlength="4" autofocus="true" required="true"
                  v-model="pin" ref="pin_input">
         </div>
         <div v-if="error_bad_pin" class="error bad-pin">Pin must be four digits</div>
         <div v-if="error_invalid_pin" class="error invalid-pin">Incorrect pin entered</div>
         <div>
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="pin_entered()">Ok</button>
+          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
         </div>
       </form>
       <p>(Pin is the account number)</p>
@@ -23,6 +23,7 @@
 <script>
 export default {
   created() {
+    console.log('in Pin.vue -- created()');
     this.accounts = this.$store.getters.accounts;
   },
   name: 'pin',
@@ -33,15 +34,19 @@ export default {
   }},
   methods:  {
     pinEntered: function() {
-      console.log(pin);
-      if (pin.length < 4 || parseInt(pin) == NaN) {
-        error_bad_pin = true;
-        this.$store.current_fsm.reject();
-      } else if (pin !== this.$store.getters.currentCustomerID) {
-        error_invalid_pin = true;
-        this.$store.current_fsm.reject();
+      let fsm = this.$fsm_manager.currentFSM();
+      let pinVal = parseInt(this.pin);
+
+      this.error_bad_pin = this.error_invalid_pin = false;
+
+      if (isNaN(parseInt(this.pin)) || this.pin.length < 4) {
+        this.error_bad_pin = true;
+        fsm.reject();  // in case something else is interested...
+      } else if (this.pin !== this.$store.getters.currentCustomerID) {
+        this.error_invalid_pin = true;
+        fsm.reject();  // ditto
       } else
-        this.$store.current_fsm.confirm();
+        fsm.confirm();
     }
   }
 }
