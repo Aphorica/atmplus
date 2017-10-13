@@ -4,6 +4,8 @@ import Ready from '@/components/Ready';
 import Pin from '@/components/Pin';
 import ActionSelection from '@/components/ActionSelection';
 import AccountSelection from '@/components/AccountSelection';
+import Amount from '@/components/Amount';
+import TransactionAction from '@/components/TransactionAction';
 
 Vue.use(Router)
 
@@ -28,6 +30,16 @@ export default new Router({
       path: '/account-selection',
       name: 'account-selection',
       component: AccountSelection
+    },
+    {
+      path: '/amount',
+      name: 'amount',
+      component: Amount
+    },
+    {
+      path: '/transaction-verify',
+      name: 'transaction-verify',
+      component: TransactionAction
     }
   ]
 })

@@ -1,4 +1,5 @@
 #! /bin/sh
+DESTDIR='../docs/state_graphs'
 BABEL_ARGS='--no-babelrc --presets=env,stage-3'
 babel $BABEL_ARGS bin/visualize --out-file bin/visualize_run
 ex - bin/visualize_run << EDIT
@@ -9,6 +10,7 @@ EDIT
 chmod 755 bin/visualize_run
 ##
 pushd ./bin
+rm $DESTDIR/*
 FILES='atm-main atm-transaction fsm_dot_styles'
 for FILE in $FILES
 do
@@ -22,6 +24,12 @@ do
   echo "running: $RUNNABLE"
   ./visualize_run $RUNNABLE.js >$RUNNABLE.dot
   ex $RUNNABLE.dot <$RUNNABLE.ex
-  dot -Tsvg -o ../docs/state_graphs/$RUNNABLE.svg $RUNNABLE.dot
+  dot -Tsvg -o ${DESTDIR}/${RUNNABLE}.svg $RUNNABLE.dot
+  ex - $RUNNABLE.dot << DOTEDIT
+:2s/= spline/= ortho/
+:.,\$s/; label.*]/]/
+:wq
+DOTEDIT
+  dot -Tsvg -o ${DESTDIR}/${RUNNABLE}_s.svg $RUNNABLE.dot
 done
 popd

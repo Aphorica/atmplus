@@ -1,3 +1,3 @@
-  graph [fontcolor = "dimgray", fontname = "Helvetica"];
-  node [color = "dimgray", fontcolor = "dimgray", fontname = "Helvetica"];
-  edge [fontcolor = "dimgray", fontname = "Helvetica"];
+  graph [fontcolor = "dimgray", fontname = "Helvetica", splines = spline];
+  node [color = "dimgray", fontsize = 13, fontcolor = "dimgray", fontname = "Helvetica"];
+  edge [fontcolor = "dimgray", fontsize = 10, fontname = "Arial" ];

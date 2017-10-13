@@ -4,7 +4,7 @@
       <h4>Enter Your Pin</h4>
       <form v-on:submit.prevent="pinEntered()">
         <div class="mdl-textfield mdl-js-textfield" id="pin-input-wrapper">
-          <input class="mdl-textfield__input" 
+          <input class="mdl-textfield__input" type="number"
                  id="pin-input" maxlength="4" autofocus="true" required="true"
                  v-model="pin" ref="pin_input">
         </div>
@@ -18,7 +18,6 @@
     </div>
     <customer></customer>
   </section>
-
 </template>
 <script>
 export default {
@@ -54,5 +53,4 @@ export default {
 <style scoped>
   #pin-input { width:5em; text-align:center; }
   #pin-input-wrapper {width:5em; padding:0; margin-left:auto; margin-right:auto; margin-bottom:1em;}
-  .error { color: red; }
 </style>

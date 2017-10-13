@@ -16,6 +16,7 @@ export default {
   created() {
     let fsm = this.$fsm_manager.currentFSM();
     fsm = this.$fsm_manager.currentFSM();
+        // TODO: Fix double call issue
     this.type = fsm.type;
   },
   data: function() { return {
@@ -25,13 +26,12 @@ export default {
     selectAccount(account) {
       let fsm = this.$fsm_manager.currentFSM();
       fsm = this.$fsm_manager.currentFSM();
+        // TODO: Fix double call issue
       fsm.account = account;
       fsm.provide();
     }
   }
 }
 </script>
-
 <style>
-  .action-type { font-style:italic; font-weight: bold; font-size: 1.1em; }
 </style>
