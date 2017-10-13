@@ -7,8 +7,17 @@ export default new StateMachine({
       account: '',
       amount: '',
       errStr: '',
+      executeError: false,
       balances: {}
     },
+  methods: {
+    resetData: function() {
+      this.type = this.account = this.amount = this.errorStr = '';
+    },
+    clearErrorStr: function() {
+      this.errorStr = '';
+    }
+  },
   transitions: [
     { name: 'init',     from: 'none',             to: 'account-selection', dot: DotStyles.SUCCESS },
     { name: 'provide',     from: 'account-selection',    to: 'amount', dot: DotStyles.SUCCESS },

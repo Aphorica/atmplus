@@ -10,10 +10,19 @@
           <tr><th class="mdl-data-table__cell--non-numeric">Amount:</th>
               <td class="mdl-data-table__cell--non-numeric">{{amount}}</td>
           </tr>
+          <tr v-if="isVerifyingState">
+            <th class="mdl-data-table__cell--non-numeric">Set Error?</th>
+            <td class="mdl-data-table__cell--non-numeric">
+                <input type="checkbox" v-model="executeError">
+              </label>
+              </form>
+            </td>
+          </tr>
         </table>
+        <p class="error" v-if="errStr">{{errStr}}</p>
       </div>
       <div>
-        <button v-if="showOK" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="accept()">Ok</button>
+        <button v-if="!isExecState" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="accept()">Ok</button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click="cancel()">Cancel</button>
       </div>
     </div>
@@ -25,17 +34,19 @@
 export default {
   name: "TransactionAction",
   created() {
+    let self = this;
     let fsm = this.$fsm_manager.currentFSM();
-    let currentState = fsm.state;
+    fsm = this.$fsm_manager.currentFSM();
+    fsm.observe('onEnterState', function(info){
+      self.currentState = info.to;
+      self.updateTransientData();
+    });
+    this.currentState = fsm.state;
     this.type = fsm.type;
     this.amount = fsm.amount;
     this.account = fsm.account;
     this.tofrom = this.type === 'deposit'? 'To' : 'From';
-    this.title = currentState === 'transaction-verify'? 'Verifying: continue ' + fsm.type + '?' :
-                 currentState === 'transaction-exec'? 'Executing ' + fsm.type + ':' :
-                 currentState === 'transaction-completed'? 'Finished ' + fsm.type + ':' :
-                 'Error: Bad State';
-    this.showOK = currentState !== 'transaction-exec';
+    this.updateTransientData();
   },
   data: function() {return{
     type: '',
@@ -43,15 +54,37 @@ export default {
     account: '',
     tofrom: '',
     title: '',
-    showOK: true
+    errStr: '',
+    executeError: false,
+    isExecState: false,
+    isErrorState: false,
+    isVerifyingState: false
   }},
   methods: {
     accept: function() {
       let fsm = this.$fsm_manager.currentFSM();
+      fsm.executeError = this.executeError;
       fsm.provide();
     },
     cancelled: function() {
       fsm.cancelled();
+    },
+    stateChanged: function(info) {
+
+    },
+    updateTransientData: function() {
+      let fsm = this.$fsm_manager.currentFSM();
+      fsm = this.$fsm_manager.currentFSM();
+
+      this.title = this.currentState === 'transaction-verify'? 'Verifying: continue ' + this.type + '?' :
+                   this.currentState === 'transaction-exec'? 'Executing ' + this.type + ':' :
+                   this.currentState === 'transaction-error'? 'Error: ' + this.type + ':' :
+                   'Error: Bad State';
+
+      this.isExecState = this.currentState === 'transaction-exec';
+      this.isVerifyingState = this.currentState === 'transaction-verify';
+      this.isErrorState = this.currentState === 'transaction-error';
+      this.errStr = fsm.errStr;
     }
   }
 }

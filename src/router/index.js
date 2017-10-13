@@ -6,6 +6,7 @@ import ActionSelection from '@/components/ActionSelection';
 import AccountSelection from '@/components/AccountSelection';
 import Amount from '@/components/Amount';
 import TransactionAction from '@/components/TransactionAction';
+import TransactionCompleted from '@/components/TransactionCompleted';
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/transaction-verify',
       name: 'transaction-verify',
       component: TransactionAction
+    },
+    {
+      path: '/transaction-completed',
+      name: 'transaction-completed',
+      component: TransactionCompleted
     }
   ]
 })
