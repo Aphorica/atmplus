@@ -11,6 +11,8 @@
         </div>
         <div>
           <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                  v-on:click="cancel()">Cancel</button>
         </div>
       </form>
     </div>
@@ -21,7 +23,13 @@
 export default {
   name: 'Amount',
   created() {
+    let self = this;
+    console.log('in Amount::created()');
     let fsm = this.$fsm_manager.currentFSM();
+    fsm.observe('onEnterState', function(info) {
+      console.log('in Amount:onEnterState, errStr: ' + fsm.errStr);
+      self.errStr = fsm.errStr;
+    });
     this.type = fsm.type;
     this.errStr = fsm.errStr;
   },
@@ -36,9 +44,13 @@ export default {
       fsm.amount = this.amount;
       fsm.balances = this.$store.getters.currentCustomerAcctInfo.balances;
       fsm.provide();
-      }
+    },
+    cancel() {
+      let fsm = this.$fsm_manager.currentFSM();
+      fsm.cancel();
     }
   }
+}
 </script>
 
 <style scoped>

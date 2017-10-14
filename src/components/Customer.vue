@@ -7,7 +7,7 @@
       </div>
       <div class="mdl-card__supporting-text">
         <table>
-          <tr><th class="cust-th" >Account # (pin):</th><td class="cust-td">{{customerID}}</td></tr>
+          <tr><th class="cust-th" >Account # (pin):</th><td v-bind:class="{'cust-td': isPinState}">{{customerID}}</td></tr>
           <tr><td colspan="2"><hr/></td></tr>
           <tr><th>Checking:</th><td>${{customerAcctInfo.balances.checking}}</td></tr>
           <tr><th>Savings:</th><td>${{customerAcctInfo.balances.savings}}</td></tr>
@@ -22,11 +22,18 @@ export default {
   created() {
     this.customerID = this.$store.getters.currentCustomerID;
     this.customerAcctInfo = this.$store.getters.currentCustomerAcctInfo;
+    this.fsm = this.$fsm_manager.currentFSM();
   },
   data: function() { return {
     customerID: '',
-    customerAcctInfo: {}
+    customerAcctInfo: {},
+    fsm: {}
   }},
+  computed: {
+    isPinState: function() {
+      return this.fsm.state === 'pin';
+    }
+  }
 }
 </script>
 <style scoped>

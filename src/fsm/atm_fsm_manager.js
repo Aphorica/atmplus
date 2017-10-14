@@ -8,7 +8,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   handleStateChange(info) {
      switch (info.to) {
        case 'deposit-transaction': 
-       case 'withdraw-transaction':
+       case 'withdrawal-transaction':
          this.setupTransaction(info); break;
        case 'transaction-validate':
          this.validateTransaction(info); break;
@@ -28,19 +28,26 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   }
 
   validateTransaction(info) {
-    let self = this;
-    setTimeout(function() {
-              // allow prior transition to complete
-      this.errStr = '';
-      let fsm = self.currentFSM();
-      let amount_val = parseFloat(fsm.amount);
-      let current_val = parseFloat(fsm.balances[fsm.account]);
-      if (fsm.type !== 'deposit' && amount_val > current_val) {
-        self.errStr = 'Insufficient funds';
-        fsm.transactionInvalid();
-      } else
+    let fsm = this.currentFSM();
+    fsm.errStr = '';
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+                // allow prior transition to complete
+        let amount_val = parseFloat(fsm.amount);
+        let current_val = parseFloat(fsm.balances[fsm.account]);
+        if (fsm.type !== 'deposit' && amount_val > current_val) {
+          fsm.errStr = 'Insufficient funds';
+          resolve(false);
+        } else
+          fsm.provide();
+          resolve(true);
+      }, 0);
+    }).then(function(result) {
+      if (result)
         fsm.provide();
-    }, 0)
+      else
+        fsm.transactionInvalid();
+    });
   }
 
   executeTransaction(info) {
@@ -70,7 +77,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
 
   exitTransaction(info) {
     this.popFSM();
-    this.currentFSM.transactionComplete();
+    this.currentFSM.transactionCompleted();
   }
 
 }
