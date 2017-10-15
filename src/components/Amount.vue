@@ -2,7 +2,7 @@
   <section>
     <div>
       <h4>Enter Amount to <span class="action-type">{{type}}:</span></h4>
-      <form v-on:submit.prevent="amountEntered()">
+      <form>
         <div class="mdl-textfield mdl-js-textfield" id="amount-input-wrapper">
           <input class="mdl-textfield__input" pattern="[1-9][0-9]*([.][0-9][0-9]){0,1}" 
                  id="amount-input" maxlength="12" autofocus="true" required="true"
@@ -10,9 +10,9 @@
           <p v-if="errStr" class="error">{{errStr}}</p>
         </div>
         <div>
-          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
+          <button v-on:click.prevent="amountEntered()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                  v-on:click="cancel()">Cancel</button>
+                  v-on:click.prevent="cancel()">Cancel</button>
         </div>
       </form>
     </div>
@@ -24,10 +24,8 @@ export default {
   name: 'Amount',
   created() {
     let self = this;
-    console.log('in Amount::created()');
     let fsm = this.$fsm_manager.currentFSM();
     fsm.observe('onEnterState', function(info) {
-      console.log('in Amount:onEnterState, errStr: ' + fsm.errStr);
       self.errStr = fsm.errStr;
     });
     this.type = fsm.type;

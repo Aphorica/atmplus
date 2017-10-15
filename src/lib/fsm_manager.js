@@ -8,23 +8,18 @@ export default class FSM_Manager {
   }
 
   pushFSM(fsm) {
-    let self = this;
-    let stateChangeLogStr = 'Level ' + this.fsmStack.length + ' State Changed';
-    fsm.observe('onEnterState', function(info) { 
-      console.log(stateChangeLogStr); 
-      console.log(info);
-      if (self.router.getMatchedComponents(info.to).length > 0) {
-        console.log('Pushing route: ' + info.to)
-        self.router.push({name: info.to});
-      }
-      else
-        self.handleStateChange(info);
-    });
+    let reportStr = 'Pushing fsm state from level ' + this.fsmStack.length;
     this.fsmStack.push(fsm);
+    reportStr += ' to ' + this.fsmStack.length;
+    console.log(reportStr);
   }
 
   popFSM() {
-    return this.fsmStack.pop();
+    let reportStr = 'Popping fsm state from level ' + this.fsmStack.length;
+    let topFSM = this.fsmStack.pop();
+    reportStr += ' to ' + this.fsmStack.length;
+    console.log(reportStr);
+    return topFSM;
   }
 
   currentFSM() { 
@@ -63,4 +58,18 @@ export default class FSM_Manager {
 
   handleStateChange(info) {}
         // override in app-specific implementation
+
+  setupObserver(fsm) {
+    let self = this;
+    fsm.observe('onEnterState', function(info) { 
+      console.log('-----\n>>> State change to: ' + info.to)
+      console.log(info);
+      if (self.router.getMatchedComponents(info.to).length > 0) {
+        console.log('Pushing route: ' + info.to)
+        self.router.push({name: info.to});
+      }
+      else
+        self.handleStateChange(info);
+    });
+  }
 }

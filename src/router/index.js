@@ -7,6 +7,7 @@ import AccountSelection from '@/components/AccountSelection';
 import Amount from '@/components/Amount';
 import TransactionAction from '@/components/TransactionAction';
 import TransactionCompleted from '@/components/TransactionCompleted';
+import ReturnCard from '@/components/ReturnCard';
 
 Vue.use(Router)
 
@@ -14,6 +15,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'ready',
+      component: Ready
+    },
+    {
+      path: '/ready',
       name: 'ready',
       component: Ready
     },
@@ -46,6 +52,11 @@ export default new Router({
       path: '/transaction-completed',
       name: 'transaction-completed',
       component: TransactionCompleted
+    },
+    {
+      path: '/return-card',
+      name: 'return-card',
+      component: ReturnCard
     }
   ]
 })

@@ -5,6 +5,7 @@
       <div>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectTransaction('deposit')">Deposit</button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectTransaction('withdraw')">Withdrawal</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click="selectTransaction('done')">Done</button>
       </div>
     </div>
     <customer></customer>
@@ -23,6 +24,8 @@ export default {
         currentFSM.deposit();
       else if (type === 'withdraw')
         currentFSM.withdraw();
+      else if (type === 'done')
+        currentFSM.done();
     }
   }
 }

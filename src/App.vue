@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <v-dialog></v-dialog>
+    <modal name="atm-modal" clckToClose="false" ></modal>
     <header>
       <span>Welcome to <em>BitBank</em></span>
     </header>
@@ -10,12 +12,37 @@
 </template>
 
 <script>
-import mainFSM from './fsm/atm-main';
+import { EventBus } from './lib/event-bus';
 
 export default {
   name: 'app',
   created() {
-    this.$fsm_manager.pushFSM(mainFSM);
+    self = this;
+    EventBus.$on('inConfirmCancel', () => {
+      self.showCancelDialog();
+    });
+  },
+  methods: {
+    showCancelDialog() {
+      let self = this;
+      this.$modal.show('dialog', {
+        title: 'Cancel?',
+        buttons: [
+          {title: 'Yes', handler: function() {
+            console.log('in App::cancelDialogHandler');
+            console.log(self);
+            self.$modal.hide('dialog');
+            self.$fsm_manager.cancelResponse(true)
+            }
+          },
+          {title: 'No', handler: function() { 
+            self.$modal.hide('dialog');
+            self.$fsm_manager.cancelResponse(false)
+            }
+          }
+        ]
+      })
+    },
   }
 }
 </script>

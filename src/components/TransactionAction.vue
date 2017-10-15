@@ -21,8 +21,8 @@
         </table>
         <p class="error" v-if="errStr">{{errStr}}</p>
       </div>
-      <div>
-        <button v-if="!isExecState" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="accept()">Ok</button>
+      <div v-if="!isExecState && !isConfirmCancelState">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="accept()">Ok</button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click="cancel()">Cancel</button>
       </div>
     </div>
@@ -63,14 +63,14 @@ export default {
   methods: {
     accept: function() {
       let fsm = this.$fsm_manager.currentFSM();
+      if (this.isErrorState)
+        this.executeError = false;
       fsm.executeError = this.executeError;
       fsm.provide();
     },
-    cancelled: function() {
-      fsm.cancelled();
-    },
-    stateChanged: function(info) {
-
+    cancel: function() {
+      let fsm = this.$fsm_manager.currentFSM();
+      fsm.cancel();
     },
     updateTransientData: function() {
       let fsm = this.$fsm_manager.currentFSM();
@@ -79,11 +79,13 @@ export default {
       this.title = this.currentState === 'transaction-verify'? 'Verifying: continue ' + this.type + '?' :
                    this.currentState === 'transaction-exec'? 'Executing ' + this.type + ':' :
                    this.currentState === 'transaction-error'? 'Error: ' + this.type + ':' :
+                   this.currentState === 'confirm-cancel'? 'Verifying: continue ' + this.type + '?' :
                    'Error: Bad State';
 
       this.isExecState = this.currentState === 'transaction-exec';
       this.isVerifyingState = this.currentState === 'transaction-verify';
       this.isErrorState = this.currentState === 'transaction-error';
+      this.isConfirmCancelState = this.currentState === 'confirm-cancel';
       this.errStr = fsm.errStr;
     }
   }

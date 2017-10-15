@@ -3,6 +3,7 @@
     <h4>Please Select a Card to Insert</h4>
     <div class="styled-select slate card-select">
       <select v-on:change="cardSelected($event)">
+        <option>Select a customer (and card)</option>
         <option v-for="key in Object.keys(accounts)" v-bind:key="key" v-bind:value="key"
                 v-text="makeEntryString(key)"></option>
       </select>

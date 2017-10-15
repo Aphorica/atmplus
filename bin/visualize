@@ -5,12 +5,13 @@ function load(fn) {
   return _fn2.default
 }
 
-let fsm = load('./' + process.argv[2]);
+let fsm_def = load('./' + process.argv[2]);
 
 import StateMachine from 'javascript-state-machine';
 import visualize from 'javascript-state-machine/lib/visualize';
 
 try {
+  let fsm = new StateMachine(fsm_def);
   let outstr = visualize(fsm);
   process.stdout.write(outstr);
 } catch(e) {

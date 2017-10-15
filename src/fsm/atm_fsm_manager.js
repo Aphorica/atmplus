@@ -1,10 +1,20 @@
+import StateMachine from 'javascript-state-machine';
+import Promise from 'bluebird'
+
 import FSM_Manager from '../lib/fsm_manager';
-import atm_transaction_fsm from './atm-transaction';
+import atm_main_def  from './atm-main';
+import atm_transaction_def from './atm-transaction';
+import { EventBus } from '../lib/event-bus.js';
 
 export default class ATM_FSM_Manager extends FSM_Manager {
   constructor(_router) {
     super(_router);
+    let main_fsm = new StateMachine(atm_main_def);
+    this.setupObserver(main_fsm);
+    this.pushFSM(main_fsm);
+    this.currentFSM().init();
   }
+
   handleStateChange(info) {
      switch (info.to) {
        case 'deposit-transaction': 
@@ -16,35 +26,45 @@ export default class ATM_FSM_Manager extends FSM_Manager {
          this.executeTransaction(info); break;
        case 'transaction-exit':
          this.exitTransaction(info); break;
+       case 'confirm-cancel':
+         this.confirmCancel(info); break;
        default:;
      }
   }
 
   setupTransaction(info) {
-    this.pushFSM(atm_transaction_fsm);
+    let transaction_fsm = new StateMachine(atm_transaction_def);
+    this.setupObserver(transaction_fsm);
+
+    this.pushFSM(transaction_fsm);
     let fsm = this.currentFSM();
     fsm.type = info.transition;
-    fsm.init(); 
+    if (fsm.state === 'none') {
+      console.log('initializing transaction state');
+      fsm.init(); 
+    }
+    else {
+      console.log('resetting transaction state');
+      fsm.reset();
+    }
   }
 
   validateTransaction(info) {
     let fsm = this.currentFSM();
     fsm.errStr = '';
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-                // allow prior transition to complete
-        let amount_val = parseFloat(fsm.amount);
-        let current_val = parseFloat(fsm.balances[fsm.account]);
-        if (fsm.type !== 'deposit' && amount_val > current_val) {
-          fsm.errStr = 'Insufficient funds';
-          resolve(false);
-        } else
-          fsm.provide();
-          resolve(true);
-      }, 0);
-    }).then(function(result) {
-      if (result)
+    return Promise.delay(0).then(function() {
+      let amount_val = parseFloat(fsm.amount);
+      let current_val = parseFloat(fsm.balances[fsm.account]);
+      if (fsm.type !== 'deposit' && amount_val > current_val) {
+        fsm.errStr = 'Insufficient funds';
+        return false;
+      } else
+        return true;
+      }).delay(5000).then(function(result) {
+      if (result) {
+        console.log(" ===== in ATMFsmManager::validateTransaction.then()");
         fsm.provide();
+      }
       else
         fsm.transactionInvalid();
     });
@@ -53,31 +73,46 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   executeTransaction(info) {
     let fsm = this.currentFSM();
     fsm.errStr = '';
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
+    return Promise.delay(0).then(function() {
         if (fsm.executeError) {
           fsm.errStr = "BitBank transaction failed.  Try again?"
-          resolve(false);
+          return(false);
         }
       else {
         let amount_val = parseFloat(fsm.amount);
         if (fsm.type !== 'deposit')
             amount_val = -amount_val;
         fsm.balances[fsm.account] += amount_val;
-        resolve(true);
+        return(true);
         }
-      }, 1000);
-    }).then(function(success) {
-      if (success)
-        fsm.provide();
-      else
-        fsm.transactionError();
-    });
+      }).delay(5000).then(function(success) {
+        if (success) {
+          console.log(" ===== in ATMFsmManager::validateTransaction.then()");
+          fsm.provide();
+        } else
+          fsm.transactionError();
+      });
+  }
+
+  confirmCancel(info) {
+    EventBus.$emit('inConfirmCancel');
   }
 
   exitTransaction(info) {
-    this.popFSM();
-    this.currentFSM.transactionCompleted();
+    let self = this;
+    setTimeout(function() {
+      let currentFSM = self.popFSM();
+      currentFSM.resetData();
+
+      self.currentFSM().transactionPopped();
+    }, 0);
+  }
+
+  cancelResponse(cancel) {
+    if (cancel)
+      this.currentFSM().exit();
+    else 
+      this.currentFSM().historyBack();
   }
 
 }
