@@ -52,7 +52,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   validateTransaction(info) {
     let fsm = this.currentFSM();
     fsm.errStr = '';
-    return Promise.delay(0).then(function() {
+    return Promise.delay(0).delay(5000).then(function() {
       let amount_val = parseFloat(fsm.amount);
       let current_val = parseFloat(fsm.balances[fsm.account]);
       if (fsm.type !== 'deposit' && amount_val > current_val) {
@@ -60,7 +60,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         return false;
       } else
         return true;
-      }).delay(5000).then(function(result) {
+      }).then(function(result) {
       if (result) {
         console.log(" ===== in ATMFsmManager::validateTransaction.then()");
         fsm.provide();

@@ -3,9 +3,13 @@
     <div>
       <h4>Select Action</h4>
       <div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectTransaction('deposit')">Deposit</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectTransaction('withdraw')">Withdrawal</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click="selectTransaction('done')">Done</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                v-on:click="selectTransaction('deposit')">&nbsp;Deposit&nbsp;</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                v-on:click="selectTransaction('withdraw')">Withdrawal</button>
+        <br/><br/>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                v-on:click="selectTransaction('done')">Done</button>
       </div>
     </div>
     <customer></customer>
@@ -19,18 +23,17 @@ export default {
   name: 'ActionSelection',
   methods: {
     selectTransaction: function(type) {
-      let currentFSM = this.$fsm_manager.currentFSM();
+      let fsm = this.$fsm_manager.currentFSM();
       if (type === 'deposit')
-        currentFSM.deposit();
+        fsm.deposit();
       else if (type === 'withdraw')
-        currentFSM.withdraw();
+        fsm.withdraw();
       else if (type === 'done')
-        currentFSM.done();
+        fsm.done();
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

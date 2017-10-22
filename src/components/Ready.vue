@@ -45,6 +45,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   .ok { color: green; margin-top: 3em;}
-  .card-select { width:470px!important; margin-left:auto; margin-right:auto; }
-  .card-select select { width: 500px!important; }
+  .card-select { width:370px!important; margin-left:auto; margin-right:auto; }
+  .card-select select { width: 400px!important; }
 </style>

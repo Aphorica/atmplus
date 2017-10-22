@@ -1,6 +1,7 @@
 <template>
   <section>
     <div>
+      <h4>For <span class="item-highlight">{{account}}</span></h4>
       <h4>Enter Amount to <span class="action-type">{{type}}:</span></h4>
       <form>
         <div class="mdl-textfield mdl-js-textfield" id="amount-input-wrapper">
@@ -8,6 +9,7 @@
                  id="amount-input" maxlength="12" autofocus="true" required="true"
                  v-model="amount" ref="amount_input">
           <p v-if="errStr" class="error">{{errStr}}</p>
+          <p v-if="infoStr" class="info">{{infoStr}}</p>
         </div>
         <div>
           <button v-on:click.prevent="amountEntered()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
@@ -30,17 +32,21 @@ export default {
     });
     this.type = fsm.type;
     this.errStr = fsm.errStr;
+    this.account = fsm.account;
   },
   data: function() { return {
     amount: '',
+    account: '',
     type: '',
-    errStr: ''
+    errStr: '',
+    infoStr: ''
   }},
   methods: {
     amountEntered() {
       let fsm = this.$fsm_manager.currentFSM();
       fsm.amount = this.amount;
       fsm.balances = this.$store.getters.currentCustomerAcctInfo.balances;
+      this.infoStr = "Validating account balances";
       fsm.provide();
     },
     cancel() {

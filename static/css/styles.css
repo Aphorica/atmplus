@@ -1,8 +1,11 @@
+button { width:12em; }
+.item-highlight { font-size:1.1em; font-style:italic; font-weight:bold; text-transform:capitalize; }
 .error { color:red; }
+.info { color: blue;}
 /* -------------------- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
 .styled-select {
-  background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+  background: url(/static/img/chevron.png) no-repeat 96% 0;
   height: 29px;
   overflow: hidden;
   width: 240px;
@@ -18,7 +21,7 @@
 }
 
 .styled-select.slate {
-  background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
+  background: url(/static/img/lg-drop-arrow.jpg) no-repeat right center;
   height: 34px;
   width: 240px;
 }
