@@ -52,7 +52,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   validateTransaction(info) {
     let fsm = this.currentFSM();
     fsm.errStr = '';
-    return Promise.delay(0).delay(5000).then(function() {
+    return Promise.delay(0).then(function() {
       let amount_val = parseFloat(fsm.amount);
       let current_val = parseFloat(fsm.balances[fsm.account]);
       if (fsm.type !== 'deposit' && amount_val > current_val) {
@@ -60,7 +60,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         return false;
       } else
         return true;
-      }).then(function(result) {
+      }).delay(5000).then(function(result) {
       if (result) {
         console.log(" ===== in ATMFsmManager::validateTransaction.then()");
         fsm.provide();
@@ -73,7 +73,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   executeTransaction(info) {
     let fsm = this.currentFSM();
     fsm.errStr = '';
-    return Promise.delay(0).then(function() {
+    return Promise.delay(5000).then(function() {
         if (fsm.executeError) {
           fsm.errStr = "BitBank transaction failed.  Try again?"
           return(false);
@@ -85,7 +85,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         fsm.balances[fsm.account] += amount_val;
         return(true);
         }
-      }).delay(5000).then(function(success) {
+      }).delay(0).then(function(success) {
         if (success) {
           console.log(" ===== in ATMFsmManager::validateTransaction.then()");
           fsm.provide();

@@ -11,7 +11,10 @@
         <div v-if="error_bad_pin" class="error bad-pin">Pin must be four digits</div>
         <div v-if="error_invalid_pin" class="error invalid-pin">Incorrect pin entered</div>
         <div>
-          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
+          <button type="submit"
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  v-bind:class="{'mdl-button-colored': pin.length === 4}"
+                  v-bind:disabled="pin.length < 4">Ok</button>
         </div>
       </form>
       <p>(Pin is the account number)</p>

@@ -11,10 +11,13 @@
           <p v-if="errStr" class="error">{{errStr}}</p>
           <p v-if="infoStr" class="info">{{infoStr}}</p>
         </div>
-        <div>
-          <button v-on:click.prevent="amountEntered()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Ok</button>
+        <div v-if="infoStr.length === 0">
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  v-on:click.prevent="amountEntered()" type="submit" v-bind:disabled="amount.length === 0"
+                  v-bind:class="{'mdl-button--colored': amount.length > 0}">Ok</button>
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                  v-on:click.prevent="cancel()">Cancel</button>
+                  v-on:click.prevent="cancel()" v-bind:disabled="amount.length === 0"
+                  v-bind:class="{'mdl-button--accent': amount.length > 0}">Cancel</button>
         </div>
       </form>
     </div>
