@@ -1,18 +1,12 @@
 <template>
-  <div>
-    <hr/>
-    <div class="demo-card-wide mdl-card">
-      <div class="title-wrapper mdl-card__title">
-        <p class="mdl-card__title-text">Account Info ({{customerAcctInfo.name}})</p>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <table>
-          <tr><th class="cust-th" >Account # (pin):</th><td v-bind:class="{'cust-td': isPinState}">{{customerID}}</td></tr>
-          <tr><td colspan="2"><hr/></td></tr>
-          <tr><th>Checking:</th><td>${{customerAcctInfo.balances.checking}}</td></tr>
-          <tr><th>Savings:</th><td>${{customerAcctInfo.balances.savings}}</td></tr>
-        </table>
-      </div>
+  <div id="customer">
+     <h4>Account Info ({{customerAcctInfo.name}})</h4>
+      <table>
+        <tr><th class="cust-th" >Account # (pin):</th><td v-bind:class="{'cust-td': isPinState}">{{customerID}}</td></tr>
+        <tr class="separator"><td class="separator" colspan="2"></td></tr>
+        <tr><th>Checking:</th><td>${{customerAcctInfo.balances.checking}}</td></tr>
+        <tr><th>Savings:</th><td>${{customerAcctInfo.balances.savings}}</td></tr>
+      </table>
     </div>
   </div>
 </template>
@@ -37,15 +31,15 @@ export default {
 }
 </script>
 <style scoped>
+  #customer { background-color:black; color:white; height:10000px;}
+  h4 { padding-top: 0.5em; margin-bottom:3px; }
+  table { width:20em; margin-left:auto; margin-right:auto; border:thin solid white;
+          padding:0.5em;}
   .cust-td,.cust-th { font-weight:bold; font-size: 1.3rem;}
   .cust-td { color: crimson; }
   .cust-td::before, .cust-td::after { content: '--'; }
-  .demo-card-wide {border: thin solid #ccc; width:300px; margin-left:auto; margin-right:auto;
-                   margin-top:4rem;  }
-  .mdl-card__title { background-color: cyan;}
-  .mdl-card__title-text { color:#777; font-size: 1.5rem; font-weight:bold; margin-left:auto; margin-right:auto; }
-  .title-wrapper { text-align:center!important; }
-  .mdl-card__supporting-text table { width:100%; }
+  .separator { height: 1px; background-color:gray; padding:0; }
   th {text-align:left; font-size:1.2rem; }
   td {text-align:right; font-size:1.2rem; }
+  th,td { padding-top: 5px; padding-bottom:5x;}
 </style>

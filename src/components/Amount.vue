@@ -18,8 +18,7 @@
                   v-on:click.prevent="amountEntered()" type="submit" v-bind:disabled="amount.length === 0"
                   v-bind:class="{'mdl-button--colored': amount.length > 0}">Ok</button>
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                  v-on:click.prevent="cancel()" v-bind:disabled="amount.length === 0"
-                  v-bind:class="{'mdl-button--accent': amount.length > 0}">Cancel</button>
+                  v-on:click.prevent="cancel()">Cancel</button>
         </div>
       </form>
     </div>
@@ -61,6 +60,7 @@ export default {
     },
     cancel() {
       let fsm = this.$fsm_manager.currentFSM();
+      fsm.infoStr = '';
       fsm.cancel();
     }
   }
