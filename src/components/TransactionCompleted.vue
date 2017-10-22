@@ -1,12 +1,14 @@
 <template>
-  <section>
-    <div>
+  <section id="main-content">
+    <div id="atm-screen">
       <h4><span class="item-highlight">{{type}}</span> {{tofrom}} 
-          <span class="item-highlight">{{account}}</span> Completed.<br/>Another?</h4>
-    </div>
-    <div>
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="clicked('yes')">Yes</button>
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click="clicked('no')">No</button>
+          <span class="item-highlight">{{account}}</span> Completed.</h4>
+          <h4>Another <span class="item-highlight">{{type}}?</span></h4>
+      <br/>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+              v-on:click="clicked('yes')">Yes</button>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+              v-on:click="clicked('no')">No</button>
     </div>
     <customer></customer>
   </section>

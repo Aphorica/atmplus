@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <div>
+  <section id="main-content">
+    <div id="atm-screen">
       <h4>For <span class="item-highlight">{{account}}</span></h4>
       <h4>Enter Amount to <span class="action-type">{{type}}:</span></h4>
       <form>
@@ -9,7 +9,9 @@
                  id="amount-input" maxlength="12" autofocus="true" required="true"
                  v-model="amount" ref="amount_input">
           <p v-if="errStr" class="error">{{errStr}}</p>
-          <p v-if="infoStr" class="info">{{infoStr}}</p>
+          <div v-if="infoStr" class="info">
+            <p>{{infoStr}}</p>&nbsp;<img src="/static/img/Rolling.svg"/></p>
+          </div>
         </div>
         <div v-if="infoStr.length === 0">
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
@@ -31,11 +33,16 @@ export default {
     let self = this;
     let fsm = this.$fsm_manager.currentFSM();
     fsm.observe('onEnterState', function(info) {
+      self.infoStr = fsm.infoStr;
       self.errStr = fsm.errStr;
+      self.amount = fsm.amount;
     });
     this.type = fsm.type;
     this.errStr = fsm.errStr;
     this.account = fsm.account;
+  },
+  mounted() {
+    this.$refs.amount_input.focus();
   },
   data: function() { return {
     amount: '',
@@ -49,7 +56,7 @@ export default {
       let fsm = this.$fsm_manager.currentFSM();
       fsm.amount = this.amount;
       fsm.balances = this.$store.getters.currentCustomerAcctInfo.balances;
-      this.infoStr = "Validating account balances";
+      fsm.infoStr = "Validating account balances";
       fsm.provide();
     },
     cancel() {

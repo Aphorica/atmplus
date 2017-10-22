@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <div>
+  <section id="main-content">
+    <div id="atm-screen">
       <h4>{{title}}</h4>
       <div id="table-wrapper">
         <table class="mdl-data-table mdl-js-data-table">
@@ -20,10 +20,13 @@
           </tr>
         </table>
         <p class="error" v-if="errStr">{{errStr}}</p>
+        <img v-if="isExecState" src="/static/img/Rolling.svg" />
       </div>
       <div v-if="!isExecState && !isConfirmCancelState">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="accept()">Ok</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click="cancel()">Cancel</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                v-on:click="accept()">Ok</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                v-on:click="cancel()">Cancel</button>
       </div>
     </div>
     <customer></customer>

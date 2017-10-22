@@ -1,6 +1,6 @@
 <template>
-   <section>
-    <div>
+   <section id="main-content">
+    <div id="atm-screen">
       <h4>Select Account to <span class="action-type">{{type}}:</span></h4>
       <div>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="selectAccount('checking')">Checking</button>

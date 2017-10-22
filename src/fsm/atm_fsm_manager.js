@@ -57,6 +57,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
       let current_val = parseFloat(fsm.balances[fsm.account]);
       if (fsm.type !== 'deposit' && amount_val > current_val) {
         fsm.errStr = 'Insufficient funds';
+        fsm.infoStr = '';
         return false;
       } else
         return true;

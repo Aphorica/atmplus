@@ -7,6 +7,7 @@ import DotStyles from './fsm_dot_styles.js';
       account: '',
       amount: '',
       errStr: '',
+      infoStr: '',
       executeError: false,
       balances: {}
     },

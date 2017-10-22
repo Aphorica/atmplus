@@ -1,7 +1,8 @@
 <template>
-  <section>
-    <div>
-      <h4>Enter Your Pin</h4>
+  <section id="main-content">
+    <div id="atm-screen">
+      <h3>Hello, {{name}}</h3>
+      <h4>Please Enter Your Pin:</h4>
       <form v-on:submit.prevent="pinEntered()">
         <div class="mdl-textfield mdl-js-textfield" id="pin-input-wrapper">
           <input class="mdl-textfield__input" type="number"
@@ -25,13 +26,17 @@
 <script>
 export default {
   created() {
-    this.accounts = this.$store.getters.accounts;
+    this.name = this.$store.getters.currentCustomerAcctInfo.name;
+  },
+  mounted() {
+    this.$refs.pin_input.focus();
   },
   name: 'pin',
   data: function(){ return {
     pin: '',
     error_bad_pin: false,
-    error_invalid_pin: false
+    error_invalid_pin: false,
+    name: ''
   }},
   methods:  {
     pinEntered: function() {
