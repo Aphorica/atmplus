@@ -13,23 +13,32 @@ export default class ATM_FSM_Manager extends FSM_Manager {
     this.setupObserver(main_fsm);
     this.pushFSM(main_fsm);
     this.currentFSM().init();
+    this.timerID = null;
+  }
+
+  beforeStateChange(info) {
+    if (info.to !== "ready")
+      this.setTimer();
   }
 
   handleStateChange(info) {
+    if (this.currentFSM().timed_out)
+      this.handleTimeout();
+    else
      switch (info.to) {
-       case 'deposit-transaction': 
-       case 'withdrawal-transaction':
-         this.setupTransaction(info); break;
-       case 'transaction-validate':
-         this.validateTransaction(info); break;
-       case 'transaction-exec':
-         this.executeTransaction(info); break;
-       case 'transaction-exit':
-         this.exitTransaction(info); break;
-       case 'confirm-cancel':
-         this.confirmCancel(info); break;
-       default:;
-     }
+        case 'deposit-transaction': 
+        case 'withdrawal-transaction':
+          this.setupTransaction(info); break;
+        case 'transaction-validate':
+          this.validateTransaction(info); break;
+        case 'transaction-exec':
+          this.executeTransaction(info); break;
+        case 'transaction-exit':
+          this.exitTransaction(info); break;
+        case 'confirm-cancel':
+          this.confirmCancel(info); break;
+        default:;
+      }
   }
 
   setupTransaction(info) {
@@ -103,8 +112,6 @@ export default class ATM_FSM_Manager extends FSM_Manager {
     let self = this;
     setTimeout(function() {
       let currentFSM = self.popFSM();
-      currentFSM.resetData();
-
       self.currentFSM().transactionPopped();
     }, 0);
   }
@@ -114,6 +121,36 @@ export default class ATM_FSM_Manager extends FSM_Manager {
       this.currentFSM().exit();
     else 
       this.currentFSM().historyBack();
+  }
+
+  setTimer() {
+    let self = this;
+    let fsm = self.currentFSM();
+
+    fsm.timed_out = false;
+
+    if (this.timerID === null)
+      clearTimeout(this.timerID);
+    
+    this.timerID = setTimeout(function() {
+      fsm.timed_out = true;
+      fsm.timeout();
+    }, 5000) 
+  }
+
+  handleTimeout() {
+    if (this.timerID !== null)
+    {
+      clearTimeout(this.timerID);
+      this.timerID === null;
+    }
+    
+    while (this.fsmStack.length > 1)
+    {
+      this.popFSM();
+      this.currentFSM.timed_out = true;
+      this.currentFSM().timeout();
+    }
   }
 
 }

@@ -56,6 +56,7 @@ export default class FSM_Manager {
     }
   }
 
+  beforeStateChange(info) {}
   handleStateChange(info) {}
         // override in app-specific implementation
 
@@ -64,6 +65,7 @@ export default class FSM_Manager {
     fsm.observe('onEnterState', function(info) { 
       console.log('-----\n>>> State change to: ' + info.to)
       console.log(info);
+      self.beforeStateChange(info);
       if (self.router.getMatchedComponents(info.to).length > 0) {
         console.log('Pushing route: ' + info.to)
         self.router.push({name: info.to});

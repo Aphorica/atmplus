@@ -3,8 +3,20 @@ import DotStyle from './fsm_dot_styles.js';
 
 export default {
   data: {
-      returnState: ''
+      timed_out: false
     },
+  methods: {
+    resetData: function() {
+      this.timed_out = true;
+    },
+    onInvalidTransition: function(transition, from, to) {
+      if (to === 'timeout')
+        return;
+
+      throw new Exception("transition not allowed: " + transition +
+                          ", from: " + from + ", to: " + to);
+    }
+  },
   plugins: [
     new StateMachineHistory()
   ],
@@ -24,7 +36,7 @@ export default {
     { name: 'transaction-popped', from: 'withdrawal-transaction', to: 'action-selection', dot: DotStyle.SUCCESS },
 
     { name: 'done', from: 'action-selection', to: 'return-card', dot: DotStyle.CANCEL },
-    { name: 'timed-out', from: ['action-selection', 'deposit-transaction', 'withdrawal-transaction', 'pin', 'pin-error'],
+    { name: 'timeout', from: ['action-selection', 'deposit-transaction', 'withdrawal-transaction', 'pin', 'pin-error'],
                          to:'return-card', dot: DotStyle.TIMEOUT },
   ]
 };

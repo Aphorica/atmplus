@@ -3,6 +3,7 @@ import DotStyles from './fsm_dot_styles.js';
 
  export default {
   data: {
+      timeout: false,
       type: '',
       account: '',
       amount: '',
@@ -12,11 +13,12 @@ import DotStyles from './fsm_dot_styles.js';
       balances: {}
     },
   methods: {
-    resetData: function() {
-      this.type = this.account = this.amount = this.errorStr = '';
-    },
-    clearErrorStr: function() {
-      this.errorStr = '';
+    onInvalidTransition: function(transition, from, to) {
+      if (to === 'timeout')
+        return;
+
+      throw new Exception("transition not allowed: " + transition +
+                          ", from: " + from + ", to: " + to);
     }
   },
   plugins: [
