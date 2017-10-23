@@ -17,13 +17,14 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   }
 
   beforeStateChange(info) {
-    if (info.to !== "ready")
+    if (info.to !== "ready" && info.transition !== 'timeout')
       this.setTimer();
   }
 
   handleStateChange(info) {
-    if (this.currentFSM().timed_out)
+    if (info.transition === 'timeout') {
       this.handleTimeout();
+    }
     else
      switch (info.to) {
         case 'deposit-transaction': 
@@ -49,11 +50,9 @@ export default class ATM_FSM_Manager extends FSM_Manager {
     let fsm = this.currentFSM();
     fsm.type = info.transition;
     if (fsm.state === 'none') {
-      console.log('initializing transaction state');
       fsm.init(); 
     }
     else {
-      console.log('resetting transaction state');
       fsm.reset();
     }
   }
@@ -72,7 +71,6 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         return true;
       }).delay(5000).then(function(result) {
       if (result) {
-        console.log(" ===== in ATMFsmManager::validateTransaction.then()");
         fsm.provide();
       }
       else
@@ -97,7 +95,6 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         }
       }).delay(0).then(function(success) {
         if (success) {
-          console.log(" ===== in ATMFsmManager::validateTransaction.then()");
           fsm.provide();
         } else
           fsm.transactionError();
@@ -124,33 +121,35 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   }
 
   setTimer() {
+    this.currentFSM().timed_out = false;
     let self = this;
-    let fsm = self.currentFSM();
 
-    fsm.timed_out = false;
-
-    if (this.timerID === null)
+    if (this.timerID !== null)
       clearTimeout(this.timerID);
     
     this.timerID = setTimeout(function() {
+      let fsm = self.currentFSM();
       fsm.timed_out = true;
       fsm.timeout();
     }, 5000) 
   }
 
   handleTimeout() {
+    let self = this;
     if (this.timerID !== null)
     {
       clearTimeout(this.timerID);
       this.timerID === null;
     }
     
-    while (this.fsmStack.length > 1)
-    {
-      this.popFSM();
-      this.currentFSM.timed_out = true;
-      this.currentFSM().timeout();
-    }
+    setTimeout(function() {
+      while (self.fsmStack.length > 1)
+      {
+        self.popFSM();
+        self.currentFSM().timed_out = true;
+        self.currentFSM().timeout();
+      }
+    }, 0)
   }
 
 }

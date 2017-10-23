@@ -7,7 +7,7 @@
         <div class="mdl-textfield mdl-js-textfield" id="pin-input-wrapper">
           <input class="mdl-textfield__input" type="number"
                  id="pin-input" maxlength="4" autofocus="true" required="true"
-                 v-model="pin" ref="pin_input">
+                 v-model="pin" ref="pin_input" v-on:keydown="input_received()">
         </div>
         <div v-if="error_bad_pin" class="error bad-pin">Pin must be four digits</div>
         <div v-if="error_invalid_pin" class="error invalid-pin">Incorrect pin entered</div>
@@ -53,8 +53,14 @@ export default {
         fsm.reject();  // ditto
       } else
         fsm.confirm();
+    },
+    input_received() {
+      console.log("Got input");
+      this.$fsm_manager.setTimer();
     }
+
   }
+
 }
 </script>
 

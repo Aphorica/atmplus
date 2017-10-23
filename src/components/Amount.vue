@@ -7,7 +7,7 @@
         <div class="mdl-textfield mdl-js-textfield" id="amount-input-wrapper">
           <input class="mdl-textfield__input" pattern="[1-9][0-9]*([.][0-9][0-9]){0,1}" 
                  id="amount-input" maxlength="12" autofocus="true" required="true"
-                 v-model="amount" ref="amount_input">
+                 v-model="amount" ref="amount_input" v-on:keydown="input_received()">
           <p v-if="errStr" class="error">{{errStr}}</p>
           <div v-if="infoStr" class="info">
             <p>{{infoStr}}</p>&nbsp;<img src="/static/img/Rolling.svg"/></p>
@@ -62,6 +62,9 @@ export default {
       let fsm = this.$fsm_manager.currentFSM();
       fsm.infoStr = '';
       fsm.cancel();
+    },
+    input_received() {
+      this.$fsm_manager.setTimer();
     }
   }
 }

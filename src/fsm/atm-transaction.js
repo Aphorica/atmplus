@@ -3,7 +3,7 @@ import DotStyles from './fsm_dot_styles.js';
 
  export default {
   data: {
-      timeout: false,
+      timed_out: false,
       type: '',
       account: '',
       amount: '',
@@ -14,11 +14,12 @@ import DotStyles from './fsm_dot_styles.js';
     },
   methods: {
     onInvalidTransition: function(transition, from, to) {
-      if (to === 'timeout')
+      console.log('in InvalidTransition');
+      if (transition === 'timeout')
         return;
 
-      throw new Exception("transition not allowed: " + transition +
-                          ", from: " + from + ", to: " + to);
+      throw "transition not allowed: " + transition +
+            ", from: " + from + ", to: " + to;
     }
   },
   plugins: [
