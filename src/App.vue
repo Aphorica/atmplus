@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <v-dialog></v-dialog>
-    <modal name="atm-modal" clckToClose="false" ></modal>
+    <query-dialog></query-dialog>
     <header>
       <span>Welcome to <em>BitBank</em></span>
     </header>
@@ -21,28 +20,23 @@ export default {
     EventBus.$on('inConfirmCancel', () => {
       self.showCancelDialog();
     });
+    EventBus.$on('timeout', () => {
+      self.$modal.hide('query-dialog');
+    })
   },
   methods: {
     showCancelDialog() {
       let self = this;
-      this.$modal.show('dialog', {
-        title: 'Cancel?',
-        buttons: [
-          {title: 'Yes', handler: function() {
-            console.log('in App::cancelDialogHandler');
-            console.log(self);
-            self.$modal.hide('dialog');
-            self.$fsm_manager.cancelResponse(true)
+      this.$modal.show('query-dialog', {
+        title: 'Confirm Cancel?',
+        btn1_text: 'Yes',
+        btn2_text: 'No',
+        btn_action: function(btn_text) {
+            self.$modal.hide('query-dialog');
+            self.$fsm_manager.cancelResponse(btn_text === 'Yes');
             }
-          },
-          {title: 'No', handler: function() { 
-            self.$modal.hide('dialog');
-            self.$fsm_manager.cancelResponse(false)
-            }
-          }
-        ]
-      })
-    },
+        })
+    }
   }
 }
 </script>

@@ -135,13 +135,16 @@ export default class ATM_FSM_Manager extends FSM_Manager {
   }
 
   handleTimeout() {
-    let self = this;
+    EventBus.$emit('timeout');
+
     if (this.timerID !== null)
     {
       clearTimeout(this.timerID);
       this.timerID === null;
     }
     
+    let self = this;
+
     setTimeout(function() {
       while (self.fsmStack.length > 1)
       {
