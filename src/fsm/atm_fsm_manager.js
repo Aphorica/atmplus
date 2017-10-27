@@ -69,7 +69,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         return false;
       } else
         return true;
-      }).delay(5000).then(function(result) {
+      }).delay(60000).then(function(result) {
       if (result) {
         fsm.provide();
       }
