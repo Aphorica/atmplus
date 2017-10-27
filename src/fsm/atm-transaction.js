@@ -14,9 +14,10 @@ import DotStyles from './fsm_dot_styles.js';
     },
   methods: {
     onInvalidTransition: function(transition, from, to) {
-      console.log('in InvalidTransition');
       if (transition === 'timeout')
         return;
+
+      console.log('in InvalidTransition');
 
       throw "transition not allowed: " + transition +
             ", from: " + from + ", to: " + to;

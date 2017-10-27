@@ -69,7 +69,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
         return false;
       } else
         return true;
-      }).delay(60000).then(function(result) {
+      }).delay(3000).then(function(result) {
       if (result) {
         fsm.provide();
       }
@@ -131,7 +131,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
       let fsm = self.currentFSM();
       fsm.timed_out = true;
       fsm.timeout();
-    }, 5000) 
+    }, 60000) 
   }
 
   handleTimeout() {
