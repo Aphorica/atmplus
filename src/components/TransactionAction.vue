@@ -20,7 +20,7 @@
           </tr>
         </table>
         <p class="error" v-if="errStr">{{errStr}}</p>
-        <img v-if="isExecState" src="/static/img/Rolling.svg" />
+        <spinner v-if="isExecState"></spinner>
       </div>
       <div v-if="!isExecState && !isConfirmCancelState">
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"

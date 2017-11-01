@@ -7,7 +7,7 @@ button { width:12em; }
 /* -------------------- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
 /* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
 .styled-select {
-  background: url(/static/img/chevron.png) no-repeat 96% 0;
+  background: url(../img/chevron.png) no-repeat 96% 0;
   height: 29px;
   overflow: hidden;
   width: 240px;
@@ -23,7 +23,7 @@ button { width:12em; }
 }
 
 .styled-select.slate {
-  background: url(/static/img/lg-drop-arrow.jpg) no-repeat right center;
+  background: url(../img/lg-drop-arrow.jpg) no-repeat right center;
   height: 34px;
   width: 240px;
 }

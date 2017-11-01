@@ -10,7 +10,7 @@
                  v-model="amount" ref="amount_input" v-on:keydown="input_received()">
           <p v-if="errStr" class="error">{{errStr}}</p>
           <div v-if="infoStr" class="info">
-            <p>{{infoStr}}</p>&nbsp;<img src="/static/img/Rolling.svg"/></p>
+            <p>{{infoStr}}</p>&nbsp;<spinner></spinner></p>
           </div>
         </div>
         <div v-if="infoStr.length === 0">

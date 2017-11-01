@@ -100,9 +100,9 @@ var webpackConfig = merge(baseWebpackConfig, {
     new SWPrecacheWebpackPlugin({
       cacheId: 'aph_atm_fsm_demo_cache',
       filename: 'service-worker.js',
-      staticFileGlobs: ['dist/**/*.{js,html,css}','dist/static/img/*.{png,jpg,svg}'],
+      staticFileGlobs: ['atmplus/**/*.{js,html,css}','atmplus/static/img/*.{png,jpg,svg}'],
       minify: true,
-      stripPrefix: 'dist/',
+      stripPrefix: 'atmplus/',
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
