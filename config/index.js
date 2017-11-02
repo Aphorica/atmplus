@@ -4,10 +4,10 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../atmplus/index.html'),
-    assetsRoot: path.resolve(__dirname, '../atmplus'),
+    index: path.resolve(__dirname, '..' + process.env['ROOT_PATH'] + 'index.html'),
+    assetsRoot: path.resolve(__dirname, '..' + process.env['ROOT_PATH']),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/atmplus',
+    assetsPublicPath: process.env['ROOT_PATH'],
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

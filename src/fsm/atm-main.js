@@ -38,6 +38,8 @@ export default {
     { name: 'transaction-popped', from: 'withdrawal-transaction', to: 'action-selection', dot: DotStyle.SUCCESS },
 
     { name: 'done', from: 'action-selection', to: 'return-card', dot: DotStyle.CANCEL },
+    { name: 'card-timeout', from: 'return-card', to: 'swallow-card', dot:DotStyle.TIMEOUT },
+    { name: 'card-swallowed', from: 'swallow-card', to: 'ready', dot:DotStyle.SUCCESS },
     { name: 'timeout', from: ['action-selection', 'deposit-transaction', 'withdrawal-transaction', 'pin', 'pin-error'],
                          to:'return-card', dot: DotStyle.TIMEOUT },
   ]

@@ -38,6 +38,8 @@ export default class ATM_FSM_Manager extends FSM_Manager {
           this.exitTransaction(info); break;
         case 'confirm-cancel':
           this.confirmCancel(info); break;
+        case 'swallow-card':
+          this.swallowCard(info); break;
         default:;
       }
   }
@@ -103,6 +105,13 @@ export default class ATM_FSM_Manager extends FSM_Manager {
 
   confirmCancel(info) {
     EventBus.$emit('inConfirmCancel');
+  }
+
+  swallowCard(info) {
+    let fsm = this.currentFSM();
+    return Promise.delay(3000).then(function() {
+      fsm.cardSwallowed();
+    })
   }
 
   exitTransaction(info) {
