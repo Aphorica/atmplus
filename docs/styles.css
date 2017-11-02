@@ -6,3 +6,14 @@
 .images-box h4 { margin-bottom: 0;}
 .image-box { text-align:center; width:100%; border:thin solid #444; padding:12px 0; }
 #byline { text-align:right; padding: 8px 3em;}
+@media (min-width: 768px) {
+  section { column-count: 2; column-gap: 4em; column-rule: 1px solid #aaa; }
+  section h2, section h3, .images-box {column-span: all}
+  .nocolumn { column-span: all; }
+}
+@media (max-width: 768px) {
+  a.nml-menu-item { display:none!important; }
+  .main-content h2 { font-size: 1.8em; }
+  .main-content h3 { font-size: 1.5em; }
+  .main-content h4 { font-size: 1.3em; }
+}
