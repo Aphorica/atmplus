@@ -25,4 +25,4 @@ npm run build --report
 Full documentation is in the source tree in '/docs'
 
 ## Live Demo
-Live demo is coming.
+Live demo at demos.aphorica.com/atmplus .
