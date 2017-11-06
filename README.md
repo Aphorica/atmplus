@@ -16,13 +16,17 @@ npm run build_vis
 
 # build for production with minification
 npm run build
+Note: This will build to a subdirectory '/atmplus'.  To view the build, you need to
+run a webserver, for instance 'npm serve', and serve from the project root ('serve .').
+Then, in the browser, you would enter 'localhost:5000/atmplus'
 
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
 
 ## Documentation
-Full documentation is in the source tree in '/docs'
+Full documentation is here: https://aphorica.github.io/atmplus.
+(best viewed on desktop browser)
 
 ## Live Demo
-Live demo at demos.aphorica.com/atmplus .
+Live demo at https://demos.aphorica.com/atmplus.
