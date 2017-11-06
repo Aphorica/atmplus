@@ -1,7 +1,10 @@
 .main-content {width:80%; margin:0 auto; }
 .main-content h2, .main-content h3 { margin-left:-50px; text-decoration:underline; 
-                                     padding:10px; background-color:rgba(255, 255, 255, 1.0); border-radius:5px;}
-.main-content h3 {font-size:1.8em; }
+                                     padding:10px; background-color:rgba(255, 255, 255, 1.0);
+                                     border-radius:5px;}
+.main-content h2 { font-size: 1.8em; }
+.main-content h3 { font-size: 1.5em; }
+.main-content h4 { font-size: 1.3em; }
 .images-box { text-align:center; }
 .images-box h4 { margin-bottom: 0;}
 .image-box { text-align:center; width:100%; border:thin solid #444; padding:12px 0; }
@@ -13,7 +16,4 @@
 }
 @media (max-width: 768px) {
   a.nml-menu-item { display:none!important; }
-  .main-content h2 { font-size: 1.8em; }
-  .main-content h3 { font-size: 1.5em; }
-  .main-content h4 { font-size: 1.3em; }
 }
