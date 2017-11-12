@@ -23,7 +23,6 @@ for RUNNABLE in $RUNNABLES
 do
   echo "running: $RUNNABLE"
   ./visualize_run $RUNNABLE.js >$RUNNABLE.dot
-  ex $RUNNABLE.dot <$RUNNABLE.ex
   dot -Tsvg -o ${DESTDIR}/${RUNNABLE}.svg $RUNNABLE.dot
   ex - $RUNNABLE.dot << DOTEDIT
 :2s/= spline/= ortho/
