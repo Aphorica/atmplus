@@ -60,7 +60,7 @@
       </header>
       <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active main-content">
-          <section id="overview">
+          <section id="introduction">
             <h2>Introduction &ndash; Finite State Machines</h2>
             <p>
               An application can be thought of as a collection of states and
@@ -90,8 +90,10 @@
               information tied to that state is discrete.</p>
             <p>You can define broadcast transitions &ndash; for instance this application has a timeout that
               affects practically every state and preempts every transition. That behavior can
-              be defined and handled cleanly in the fsm definition.
-            </p>
+              be defined and handled cleanly in the fsm definition.</p>
+          </section>
+            <div class="sep"></div>
+          <section id="overview">
             <h2>Overview</h2>
             <p>The fsm implementation in this demo is the 
               <a href ="https://github.com/jakesgordon/javascript-state-machine" target="_blank">
@@ -162,7 +164,7 @@
               happens at each transition and state.
             </p>
           </section>
-          <hr/>
+          <div class="sep"></div>
           <section id="imp-hilites">
             <h2>Implementation Highlights</h2>
             <h4>Vue.js Implementation</h4>
@@ -234,7 +236,7 @@
               phone's desktop as a native app.
             </p>
           </section>
-          <hr/>
+          <div class="sep"></div>
           <section id="diagrams">
             <div class="nocolumn">
             <h2>Diagrams</h2>
@@ -273,7 +275,7 @@
             </div>
             </div>
           </section>
-          <hr/>
+          <div class="sep"></div>
           <section id="fsm-changes">
             <h2>Proposed Changes to the fsm Package</h2>
             <p class="nocolumn">First off, the package is a terrific implementation.  Following is an discussion
@@ -305,6 +307,9 @@
               This can be tedious.  It would be beneficial to be able to go to a state directly
               during development.  It would also enhance testing.
             </p>
+          </section>
+          <div class="sep"></div>
+          <section id="solutions">
             <h3>Proposed Solutions</h3>
             <h4>Require (or Allow) State Definitions Up Front</h4>
             <p>This would consist of a list of state names preceding the transition definition
