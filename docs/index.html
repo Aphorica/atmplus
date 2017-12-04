@@ -251,11 +251,11 @@
             <div class="images-box">
               <h4>atm-main state diagram</h4>
               <div class="image-box">
-                <img src="state_graphs/atm-main.svg" />
+                <img class="graph" src="state_graphs/atm-main.svg" />
               </div>
               <h4>atm-main &ndash; schematic state diagram</h4>
               <div class="image-box">
-                <img src="state_graphs/atm-main_s.svg" />
+                <img class="graph" src="state_graphs/atm-main_s.svg" />
               </div>
             </div>
             <br/>
@@ -266,11 +266,11 @@
             <div class="images-box">
               <h4>atm-transaction state diagram</h4>
               <div class="image-box">
-                <img src="state_graphs/atm-transaction.svg" />
+                <img class="graph" src="state_graphs/atm-transaction.svg" />
               </div>
               <h4>atm-transaction &ndash; schematic state diagram</h4>
               <div class="image-box">
-                <img src="state_graphs/atm-transaction_s.svg" />
+                <img class="graph" src="state_graphs/atm-transaction_s.svg" />
               </div>
             </div>
             </div>
@@ -358,5 +358,46 @@
         </footer>
       </main>
     </div>
+  <script>
+    (function() {
+      window.addEventListener('resize', function() {
+        rescale();
+      });
+
+      function rescale() {
+        setTimeout(function() {
+          let imgs = document.getElementsByClassName('graph');
+          let targetWidth =
+             document.getElementsByClassName('image-box')[0].clientWidth - 8;
+          console.log('\nTarget width: ' + targetWidth)
+          for (let ix = 0; ix < imgs.length; ++ix) {
+            let imgSVG = imgs[ix];
+            let aspect = 0;
+            let newWidth = -1, newHeight = -1;
+            console.log("\n");
+            if (imgSVG.width != 0) {
+              aspect = imgSVG.height / imgSVG.width;
+              console.log("Image width set: " + imgSVG.width + ' x ' + imgSVG.height);
+              newWidth = Math.min(imgSVG.width, targetWidth);
+            }
+
+            else if (imgSVG.offsetWidth !== 0) {
+              aspect = imgSVG.offsetHeight / imgSVG.offsetWidth;
+              console.log("Image offset size: " + imgSVG.offsetWith + ' x ' + imgSVG.offsetHeight);
+              newWidth = Math.min(imgSVG.offsetWidth, targetWidth);
+            }
+
+            newHeight = newWidth * aspect;
+            console.log("Image aspect: " + aspect);
+            console.log("Image new size: " + newWidth + ' x ' + newHeight);
+            imgSVG.width = newWidth;
+            imgSVG.height = newHeight;
+            }
+        }, 0);
+      };
+      rescale();
+    }
+    )();
+  </script>
   </body>
 </html>
