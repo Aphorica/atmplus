@@ -33,17 +33,21 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
     <link rel="stylesheet" href="extended-styles.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.getmdl.io/1.3.0/material.js"></script>
   </head>
   <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
         </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        <div class="mdl-layout__header-row">
           <h1>ATM-Plus</h1>
         </div>
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
           <h4>Finite State Machine Extended Demo</h4>
+        </div>
+        <div class="mdl-layout--small-screen-only mdl-layout__header-row">
+          <h4>FSM Extended Demo</h4>
         </div>
         <div id="byline">
           Rick Berger, Aphorica Inc <a href="mailto:rickb@aphorica.com">&lt;rickb@aphorica.com&gt;</a>
@@ -389,6 +393,10 @@
             }
         }, 0);
       };
+
+      console.log(MaterialLayout);
+//      MaterialLayout.prototype.Constant['MAX_WIDTH'] = '(max-width: 768)';
+
       rescale();
     }
     )();

@@ -4,18 +4,21 @@
 .main-content h2, .main-content h3 { margin-left:-50px; text-decoration:underline; 
                                      padding:10px; background-color:rgba(255, 255, 255, 1.0);
                                      border-radius:5px;}
-.main-content h2 { font-size: 1.8em; }
-.main-content h3 { font-size: 1.5em; }
-.main-content h4 { font-size: 1.3em; }
 .images-box { text-align:center; }
 .images-box h4 { margin-bottom: 0;}
 .image-box { text-align:center; width:100%; border:thin solid #444; padding:12px 0; }
 #byline { text-align:right; padding: 8px 3em;}
 @media (min-width: 768px) {
+  .main-content h2 { font-size: 1.8em; }
+  .main-content h3 { font-size: 1.5em; }
+  .main-content h4 { font-size: 1.3em; }
   section { column-count: 2; column-gap: 4em; column-rule: 1px solid #aaa; }
   section h2, section h3, .images-box {column-span: all}
   .nocolumn { column-span: all; }
 }
 @media (max-width: 768px) {
+  .main-content h2 { font-size: 1.5em; }
+  .main-content h3 { font-size: 1.2em; }
+  .main-content h4 { font-size: 1.1em; font-weight:bold;}
   a.nml-menu-item { display:none!important; }
 }
