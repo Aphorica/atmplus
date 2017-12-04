@@ -369,27 +369,21 @@
           let imgs = document.getElementsByClassName('graph');
           let targetWidth =
              document.getElementsByClassName('image-box')[0].clientWidth - 8;
-          console.log('\nTarget width: ' + targetWidth)
           for (let ix = 0; ix < imgs.length; ++ix) {
             let imgSVG = imgs[ix];
             let aspect = 0;
             let newWidth = -1, newHeight = -1;
-            console.log("\n");
             if (imgSVG.width != 0) {
               aspect = imgSVG.height / imgSVG.width;
-              console.log("Image width set: " + imgSVG.width + ' x ' + imgSVG.height);
               newWidth = Math.min(imgSVG.width, targetWidth);
             }
 
             else if (imgSVG.offsetWidth !== 0) {
               aspect = imgSVG.offsetHeight / imgSVG.offsetWidth;
-              console.log("Image offset size: " + imgSVG.offsetWith + ' x ' + imgSVG.offsetHeight);
               newWidth = Math.min(imgSVG.offsetWidth, targetWidth);
             }
 
             newHeight = newWidth * aspect;
-            console.log("Image aspect: " + aspect);
-            console.log("Image new size: " + newWidth + ' x ' + newHeight);
             imgSVG.width = newWidth;
             imgSVG.height = newHeight;
             }
