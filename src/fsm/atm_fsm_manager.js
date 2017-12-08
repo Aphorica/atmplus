@@ -6,26 +6,32 @@ import atm_main_def  from './atm-main';
 import atm_transaction_def from './atm-transaction';
 import { EventBus } from '../lib/event-bus.js';
 
+let TIMER_DURATION = 60000;
+let LOGGING = true;
+
 export default class ATM_FSM_Manager extends FSM_Manager {
   constructor(_router) {
-    super(_router);
+    super(_router, LOGGING);
     let main_fsm = new StateMachine(atm_main_def);
     this.setupObserver(main_fsm);
     this.pushFSM(main_fsm);
     this.currentFSM().init();
-    this.timerID = null;
+  }
+
+  setTimer() {
+    super.setTimer(TIMER_DURATION);
   }
 
   beforeStateChange(info) {
-    if (info.to !== "ready" && info.transition !== 'timeout')
+    if (info.to === "ready")
+      this.stopTimer();
+
+    else if (info.transition !== 'timeout')
       this.setTimer();
   }
 
   handleStateChange(info) {
-    if (info.transition === 'timeout') {
-      this.handleTimeout();
-    }
-    else
+
      switch (info.to) {
         case 'deposit-transaction': 
         case 'withdrawal-transaction':
@@ -129,39 +135,7 @@ export default class ATM_FSM_Manager extends FSM_Manager {
       this.currentFSM().historyBack();
   }
 
-  setTimer() {
-    this.currentFSM().timed_out = false;
-    let self = this;
-
-    if (this.timerID !== null)
-      clearTimeout(this.timerID);
-    
-    this.timerID = setTimeout(function() {
-      let fsm = self.currentFSM();
-      fsm.timed_out = true;
-      fsm.timeout();
-    }, 60000) 
-  }
-
   handleTimeout() {
     EventBus.$emit('timeout');
-
-    if (this.timerID !== null)
-    {
-      clearTimeout(this.timerID);
-      this.timerID === null;
-    }
-    
-    let self = this;
-
-    setTimeout(function() {
-      while (self.fsmStack.length > 1)
-      {
-        self.popFSM();
-        self.currentFSM().timed_out = true;
-        self.currentFSM().timeout();
-      }
-    }, 0)
   }
-
 }

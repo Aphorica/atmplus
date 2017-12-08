@@ -34,6 +34,9 @@ export default {
   }},
   methods: {
     beforeOpen(event) {
+      if (event.params === undefined)
+        return;
+
       if (event.params.title)
         this.title = event.params.title;
       if (event.params.msg)

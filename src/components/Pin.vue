@@ -55,7 +55,6 @@ export default {
         fsm.confirm();
     },
     input_received() {
-      console.log("Got input");
       this.$fsm_manager.setTimer();
     }
 
