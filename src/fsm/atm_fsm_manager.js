@@ -1,7 +1,7 @@
 import StateMachine from 'javascript-state-machine';
 import Promise from 'bluebird'
 
-import FSM_Manager from '../lib/fsm_manager';
+import FSM_Manager from 'fsm-manager';
 import atm_main_def  from './atm-main';
 import atm_transaction_def from './atm-transaction';
 import { EventBus } from '../lib/event-bus.js';

@@ -28,7 +28,6 @@ Then, in the browser, you would enter 'localhost:5000/atmplus'
 
 ## Documentation
 Full documentation is here: https://aphorica.github.io/atmplus.
-(best viewed on desktop browser)
 
 ## Live Demo
 Live demo at https://demos.aphorica.com/atmplus.
