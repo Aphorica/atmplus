@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>ATM-Plus &ndash; Documentation</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/favicon.png">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
+    <link rel="stylesheet" href="extended-styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.getmdl.io/1.3.0/material.js"></script>
+  </head>
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout__header-row">
+          <h1>ATM-Plus</h1>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+          <h4>Finite State Machine Extended Demo</h4>
+        </div>
+        <div class="mdl-layout--small-screen-only mdl-layout__header-row">
+          <h4>FSM Extended Demo</h4>
+        </div>
+        <div id="byline">
+          Rick Berger, Aphorica Inc <a href="mailto:gbergeraph@gmail.com">&lt;gbergeraph@gmail.com&gt;</a>
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+          <a href="index.html#overview" class="nml-menu-item mdl-layout__tab is-active">Overview</a>
+          <a href="index.html#imp-hilites" class="nml-menu-item mdl-layout__tab">Implementation Highlights</a>
+          <a href="index.html#diagrams" class="nml-menu-item mdl-layout__tab">Diagrams</a>
+          <a href="index.html#fsm-changes" class="nml-menu-item mdl-layout__tab">Proposed fsm Changes</a>
+          <div style="width:100%">&nbsp;</div>
+          <a href="https://demos.aphorica.com/atmplus" class="mdl-layout__tab"
+             style="font-size:1.2rem; color:yellow;">Live Demo</a>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="mdl-layout__tab-panel is-active main-content">
+          <section id="introduction">
+            <h2>Introduction &ndash; Finite State Machines</h2>
+            <p>
+              An application can be thought of as a collection of states and
+              transitions between states.  Transitions should be controlled &ndash; you should only
+              be able to proceed from one state to another via a specific functionality
+              designed to handle the transition between those states.</p>
+            <p>
+              A finite state machine describes and implements this collection of states and
+              transitions.  It doesn't code anything else &ndash; it doesn't build UI components or
+              data structures &ndash; it simply transitions through the defined states on specifically
+              defined triggers, notifying your app when a transition occurs.</p>
+            <p>
+              To build your application using this approach entails listening to the
+              finite state machine (fsm, for short) for transition invocations.  To effect
+              a transtion, something in your code (likely a UI operation, a timer, or
+              task completion) calls the fsm to trigger a given transition and the machine
+              then proceeds to the next defined state.
+            </p>
+            <p>The outfall of using this approach is that the various classes (and components,
+              especially) in your application are isolated.  Functionality, in turn, is isolated.
+              There are specific (finite) points of interaction, defined by the state machine.
+              Each component (or function, if a component isn't involved) implements only the
+              functionality necessary for the given state or transition with which it is associated.
+            </p>
+            <p>Even if you have a multi-purpose component (this application has one), it can
+              still behave predictably in a given state &ndash; state is well defined, and
+              information tied to that state is discrete.</p>
+            <p>You can define broadcast transitions &ndash; for instance this application has a timeout that
+              affects practically every state and preempts every transition. That behavior can
+              be defined and handled cleanly in the fsm definition.</p>
+          </section>
+            <div class="sep"></div>
+          <section id="overview">
+            <h2>Overview</h2>
+            <p>The fsm implementation in this demo is the 
+              <a href ="https://github.com/jakesgordon/javascript-state-machine" target="_blank">
+              JakesGordon/Javascript State Machine</a> package.  It's a very good implementation
+              with the added benefit of being able to produce <em>GraphViz</em> diagrams of the
+              state directly from the state definition (see below).</p>
+            <p>The demo is an amplification of the ATM example in that package. It has been fleshed
+              out with real UI components and functions to demonstrate how a real application might
+              be built with this technique.</p>
+            </p>
+            <p>The goals of the demo have been:
+              <ul>
+                <li>Create a more realistic demo with more realistic states and transitions:
+                  <ul>
+                    <li>Errors</li>
+                    <li>Validation/Verify</li>
+                    <li>Timeout</li>
+                  </ul>
+                </li>
+                <li>Exercise various ways to respond to transitions and states.</li>
+                <li>Make the whole thing work as a full Vue.js application.</li>
+                <li>Implement and test fsm composibility.</li>
+                <li>Implement as a <em>progressive web app</em> (this is a bonus: the demo is self-contained 
+                    &ndash; and should run offline if the browser supports the 'service-worker'
+                    functionality.)(currently <em>Chrome</em> and <em>FireFox</em> have the
+                    best progressive web app support.)</li>
+              </ul>
+            </p>
+            <h4>Composed States</h4>
+            <p>With even something as simple as an ATM application, representing all possible states in
+              a single state machine definition can become quite confusing, quickly.  It's extremely
+              useful to be able to break definitions into multiple fsms, with a broadly
+              functional overview "main" or "controller" fsm, that can then hand off control to one
+              of potentially several 'sub-fsm' definitions, wait
+              until that 'sub-fsm' is finished with it's task, and then resume the top-level state handling.
+            </p>
+            <p>Ability to define 'sub-sfms' also allows repurposing &ndash; in this case, a 'transaction' fsm
+              may be of a deposit or a withdrawal type, but the path within the fsm is essentially the same
+              for either, with only minor variations that can be determined by the transaction type.
+              Defining a single sub-sfm definition to handle both types reduces code proliferation, and
+              enhances maintainability.
+            </p>
+            <p><em>JG's</em> fsm implementation does not provide for composing state definitions.
+              However, since
+              fsms can be instantiated independently, it's a simple matter to create them as needed, 
+              push them on a LIFO stack, and then pop them at the end of their lifecycle.  This approach
+              has been used here with good results by creating an 'fsm_manager' facility to handle the
+              pushing and popping of fsms (it's also a good place to implement the timeout facility.)
+            </p>
+            <p>The data-storage capability within the fsm instance can be used to store
+              information differentiating the instances &ndash; in this case, deposit vs withdrawal transaction
+              type.  It can also be used to store information as execution proceeds from one state
+              to the next (see the transaction sub-fsm.)
+            </p>
+            <h4>State Diagram Generation</h4>
+            <p>There are several fsm implementations available for javascript &ndash; one feature
+              that makes this implementation
+               rise above the rest is the diagram-generation capability &ndash; creating <em>dot</em> files
+               that can be ingested by <em>GraphViz</em> to generate the diagrams.</p>
+            <p>Throughout the development of this project, it's been extremely useful to crank out diagrams
+              and refer to them while constructing the app, to insure the app conforms or to spot any
+              errors or omissions.  The diagram allows you to spot troubles quickly &ndash; 
+              It's then a simple matter to change the fsm definitions and crank out another
+              set of corrected diagrams for the next iteration.
+            </p>
+            <p>That is frankly, a killer capability &ndash; not only is it useful to drive development,
+              but it also is a great communication tool to use with the client.  Everyone knows what
+              happens at each transition and state.
+            </p>
+          </section>
+          <div class="sep"></div>
+          <section id="imp-hilites">
+            <h2>Implementation Highlights</h2>
+            <h4>Vue.js Implementation</h4>
+            <p>
+              The app is a Vue.js application, along with Vuex for data-store handling, and
+              VueRouter for routing.  In this app, the data-store is the customer accounts
+              and balances (representing the bank.)  Ostensibly, for an app of this nature,
+              you wouldn't need routing, but the intent was to see how a full application
+              with routing might be implemented with the fsm technique.
+            </p>
+            <h4>fsm_manager/atm_fsm_manager</h4>
+            <p style="margin-left:2em; margin-right:2em">(Update: This is now broken out into
+              its own NPM module &mdash;
+              <a href="https://libraries.io/npm/fsm-manager">fsm-manager</a>)</p>
+            <p>The 'fsm_manager' class and app-specific-derived class 'atm_fsm_manager' are at the
+              heart of the application, and control how the states are handled.  Some states
+              correspond to a visual component, others do not.  The router is handed off to the
+              fsm_manager constructor on instantiation, which now manages routing based on state
+              changes.</p>
+            <p>On a state change, the manager checks
+              the router to see if a route exists for the 'to' state (by convention, the route
+              is named the same as the state to avoid any mapping requirements.)  If it exists,
+              the route is triggered.  If not, control is handed off to 'handleStateChange()',
+              which is expected to be implemented in the 'fsm_manager'-derived class.</p>
+            <h4>Timeout Transition</h4>
+            <p>
+              An ATM would be expected to timeout after a period of inactivity.  This introduces
+              timeout transitions from almost every state.  The 'atm_fsm_manager' creates and
+              manages the timer.  After 1 minute of inactivity, the app will time out and revert to the
+              'card-return' state.  If the current fsm is the 'atm-transaction' sub-fsm, the
+              stack is popped, and the timeout notification is passed to the 'atm-main' fsm.</p>
+            <p>(Note the timeout transition preempts any other transitions. This is easy to
+              implenent in the state handler by checking the 'transition' value, and behaving
+              accordingly.)</p>
+            <p>Timeout functionality might be a generally useful thing &ndash; it could be generalized
+              into a facility as part of the 'fsm_manager' set.  It 
+              would require a canonically defined (or registered?) transition &ndash; 'timeout' in
+              this case &ndash; 
+              and a canonical piece of data contained within the fsm &ndash; 'timed-out', here. </p>
+            <p>This factoring is not complete, yet, but the underpinnings are in place.</p>
+            <h4>Error Transitions</h4>
+            <p>The error transitions ('transaction-invalid', and 'transaction-error') could be handled
+              in the Vue components without triggering fsm transitions, but I wanted to do this more
+              formally &ndash; for instance, something else might want to know that an error has occurred.</p>
+            <p>
+              By triggering an fsm transition to another state, anything can monitor and respond to
+              the error condition.
+            </p>
+            <h4>Leveraging Same Component for Multiple States</h4>
+            <p>The 'transaction-validate', 'transaction-verify', and 'transaction-exec' states
+              are all handled by a single component &ndash; it changes content based on the
+              state and state-specific information within the fsm.  To do this requires the
+              component to register with the fsm to receive the state-change signal, and then
+              retrieving the information from the current fsm when that signal happens.
+            </p>
+            <h4>Using a Modal Dialog to Respond to State</h4>
+            <p>The 'confirm-cancel' state is represented by a modal dialog, rather than a routed
+              component.  Again, the intent is to exercise multiple responses to changes.  By
+              utilizing the fsm history plugin, it's a simple matter to step back if cancellation
+              is accepted or do nothing if rejected .
+            </p>
+            <h4>Maintaining Information Between States</h4>
+            <p>The transaction type, account, and amount values need to be maintained from state
+              to state during the transaction cycle.  This is another good utilization of the
+              fsm data facility.  Keeping this information here until the transaction has been
+              completed isolates it from the data-store, committing to the store only when the
+              transaction has been verified and accepted.
+            </p>
+            <h4>Progressive WebApp</h4>
+            <p>Something of a bonus &ndash; if the browser supports it (Chrome, Firefox, currently).
+              The demo can be run offline as a Progressive WebApp, and even installed to a
+              phone's desktop as a native app.
+            </p>
+          </section>
+          <div class="sep"></div>
+          <section id="diagrams">
+            <div class="nocolumn">
+            <h2>Diagrams</h2>
+            <p>These are the diagrams generated from the state definitions of the main and sub-state
+              fsm definitions. The output dot files are further massaged to produce some more relevant
+              output, highlighting the sub-state instances in the main, and then providing
+              simplified schematic diagrams that are a bit less dense-looking.
+            </p>
+            <h4>ATM Main</h4>
+            <p>This is the main fsm.  'deposit-transaction' and 'withdrawal-transation' (colored
+               yellow) are instances of the 'atm-transaction' fsm.</p>
+            <div class="images-box">
+              <h4>atm-main state diagram</h4>
+              <div class="image-box">
+                <img class="graph" src="state_graphs/atm-main.svg" />
+              </div>
+              <h4>atm-main &ndash; schematic state diagram</h4>
+              <div class="image-box">
+                <img class="graph" src="state_graphs/atm-main_s.svg" />
+              </div>
+            </div>
+            <br/>
+            <h4>ATM Transaction</h4>
+            <p>This is the transaction sub-fsm.  It is instantiated and pushed onto the
+               fsm stack as required.  At the exit, it is popped off the fsm stack and control
+               return to the 'atm-main' fsm.</p>
+            <div class="images-box">
+              <h4>atm-transaction state diagram</h4>
+              <div class="image-box">
+                <img class="graph" src="state_graphs/atm-transaction.svg" />
+              </div>
+              <h4>atm-transaction &ndash; schematic state diagram</h4>
+              <div class="image-box">
+                <img class="graph" src="state_graphs/atm-transaction_s.svg" />
+              </div>
+            </div>
+            </div>
+          </section>
+          <div class="sep"></div>
+          <section id="fsm-changes">
+            <h2>Proposed Changes to the fsm Package</h2>
+            <p class="nocolumn">First off, the package is a terrific implementation.  Following is an discussion
+              of perceived issues, and proposed solutions to address them.</p>
+            </p>
+            <h3>Perceived Issues</h3>
+            <h4>Diagramming Could Be Enhanced</h4>
+            <p>The diagramming capability is perhaps <em>the</em> standout feature of this package.
+              However,
+              there are aspects (used in this application) that aren't reflected in the diagrams that
+              would be very helpful if they were.  For instance some states correspond to visual
+              components while others do not.  Some states are instances of sub-fsms.  By post
+              massaging the dot output, it's possible to do a bit, but more could be build into the
+              facility.
+            </p>
+            <h4>State Definitions Are AdHoc</h4>
+            <p>
+              In the current implementation, one doesn't define states but rather transitions.
+              States are defined as an aspect
+              of the transition.  States then, are something of a byproduct.  It would be better
+              (and less prone to error entering states) if states were defined up front.  Then,
+              if a non-existent state was entered in the transition, the facility would catch that
+              and throw an error.
+            </p>
+            <h4>No Built-In Composibility</h4>
+            <p>In the documentation, the package author indicates this is on the list of todos.</p>
+            <h4>Debugging Requires Stepping Through Each State</h4>
+            <p>
+              This can be tedious.  It would be beneficial to be able to go to a state directly
+              during development.  It would also enhance testing.
+            </p>
+          </section>
+          <div class="sep"></div>
+          <section id="solutions">
+            <h3>Proposed Solutions</h3>
+            <h4>Require (or Allow) State Definitions Up Front</h4>
+            <p>This would consist of a list of state names preceding the transition definition
+              list.  Doing so would enable:</p>
+            <ul>
+              <li>The transition definition mechanism to catch any undefined states.</li>
+              <li>dot directives to be associated with the states (much the same way they are
+                associated with transitions, now.  Useful directives might be initially:
+                <ul>
+                  <li>Shape</li>
+                  <li>Fill color</li>
+                  <li>Text information (GraphViz supports hover tooltips.)</li>
+                </ul>
+              </li>
+            </ul>
+            <p>The feature could be optional, if you didn't want to break current functionality.  The
+              package would simply check to see if a state definition list exists. If it does,
+              implement the checks -- if not, proceed as before.
+            </p>
+            <br/>
+            <h4>One Approach to Composibility &mdash; 'fsm_manager'</h4>
+            <p>Adding the concept of 'fsm_manager' makes composibility possible.  It could be
+              added to the package.
+            </p>
+            <h4>Provide Way of Proceeding Directly to A State</h4>
+            <p>There may be a way of doing this, already &ndash; I haven't investigated.  It's 
+              somewhat complicated by the fact that data may be required to go to a given
+              state (and would have to be implanted in the fsm before triggering.)  Sub-fsm
+              states would add further complication.</p>
+            <p>Have to think on this some more.  One approach might be to record state changes
+              (and fsm data changes) and store that recording in some form.  Then, reset original
+              state and play back the changes &ndash; unhooking the UI until the last step.  That would
+              relieve the necessity of setting up states in a fixture of some sort.
+            </p>
+          </section>
+        </div>
+        <footer class="mdl-mega-footer">
+          <div class="mdl-mega-footer--middle-section">
+            <div class="mdl-mega-footer--drop-down-section">
+              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+              <ul class="mdl-mega-footer--link-list">
+                <li><a href="#">About</a></li>
+              </ul>
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+  <script>
+    (function() {
+      window.addEventListener('resize', function() {
+        rescale();
+      });
+
+      function rescale() {
+        setTimeout(function() {
+          let imgs = document.getElementsByClassName('graph');
+          let targetWidth =
+             document.getElementsByClassName('image-box')[0].clientWidth - 8;
+          for (let ix = 0; ix < imgs.length; ++ix) {
+            let imgSVG = imgs[ix];
+            let aspect = 0;
+            let newWidth = -1, newHeight = -1;
+            if (imgSVG.width != 0) {
+              aspect = imgSVG.height / imgSVG.width;
+              newWidth = Math.min(imgSVG.width, targetWidth);
+            }
+
+            else if (imgSVG.offsetWidth !== 0) {
+              aspect = imgSVG.offsetHeight / imgSVG.offsetWidth;
+              newWidth = Math.min(imgSVG.offsetWidth, targetWidth);
+            }
+
+            newHeight = newWidth * aspect;
+            imgSVG.width = newWidth;
+            imgSVG.height = newHeight;
+            }
+        }, 0);
+      };
+
+      console.log(MaterialLayout);
+//      MaterialLayout.prototype.Constant['MAX_WIDTH'] = '(max-width: 768)';
+
+      rescale();
+    }
+    )();
+  </script>
+  </body>
+</html>

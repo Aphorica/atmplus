@@ -1,0 +1,42 @@
+#body {display: flex; flex-direction:vertical}
+#atm-screen {height:18rem; }
+/* button { width:12em;} */
+.mdl-button {
+  width:10em;
+  margin-left:0.5em;
+  margin-right:0.5em;
+}
+
+.item-highlight { font-size:1.1em; font-style:italic; font-weight:bold; text-transform:capitalize; }
+.error { color:red; }
+.info { color: blue;}
+/* -------------------- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
+/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
+.styled-select {
+  background: url(../img/chevron.png) no-repeat 96% 0;
+  height: 29px;
+  overflow: hidden;
+  width: 240px;
+}
+
+.styled-select select {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  height: 29px;
+  padding: 5px; /* If you add too much padding here, the options won't show in IE */
+  width: 268px;
+}
+
+.styled-select.slate {
+  background: url(../img/lg-drop-arrow.jpg) no-repeat right center;
+  height: 34px;
+  width: 240px;
+}
+
+.styled-select.slate select {
+  border: 1px solid #ccc;
+  font-size: 16px;
+  height: 34px;
+  width: 268px;
+}

@@ -1,0 +1,32 @@
+#! /bin/sh
+DESTDIR='../docs/state_graphs'
+echo $PATH
+exit
+BABEL_ARGS='--no-babelrc --presets="@babel/preset-env"' #,"stage-3"'
+npx babel $BABEL_ARGS bin/visualize --out-file bin/visualize_run
+exit
+chmod 755 bin/visualize_run
+##
+pushd ./bin
+rm $DESTDIR/*
+FILES='atm-main atm-transaction fsm_dot_styles'
+for FILE in $FILES
+do
+  echo "transpiling: $FILE"
+  babel $BABEL_ARGS ../src/fsm/$FILE.js --out-file ./$FILE.js
+done
+##
+RUNNABLES='atm-main atm-transaction'
+for RUNNABLE in $RUNNABLES
+do
+  echo "running: $RUNNABLE"
+  ./visualize_run $RUNNABLE.js >$RUNNABLE.dot
+  dot -Tsvg -o ${DESTDIR}/${RUNNABLE}.svg $RUNNABLE.dot
+  ex - $RUNNABLE.dot << DOTEDIT
+:2s/= spline/= ortho/
+:.,\$s/; label.*]/]/
+:wq
+DOTEDIT
+  dot -Tsvg -o ${DESTDIR}/${RUNNABLE}_s.svg $RUNNABLE.dot
+done
+popd

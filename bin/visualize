@@ -1,0 +1,19 @@
+#! /usr/local/bin/node
+function load(fn) {
+  let _fn = require(fn)
+  let _fn2 = INTEROP(_fn);
+  return _fn2.default
+}
+
+let fsm_def = load('./' + process.argv[2]);
+
+import StateMachine from 'javascript-state-machine';
+import visualize from 'javascript-state-machine/lib/visualize';
+
+try {
+  let fsm = new StateMachine(fsm_def);
+  let outstr = visualize(fsm);
+  process.stdout.write(outstr);
+} catch(e) {
+  process.stderr.write('ERROR: ' + e);
+}

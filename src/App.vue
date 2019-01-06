@@ -1,31 +1,84 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <query-dialog></query-dialog>
+    <header>
+      <span>Welcome to <em>BitBank</em></span>
+    </header>
+    <main>
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
+<script>
+import { EventBus } from './lib/event-bus';
+
+export default {
+  name: 'app',
+  created() {
+    self = this;
+    EventBus.$on('inConfirmCancel', () => {
+      self.showCancelDialog();
+    });
+    EventBus.$on('timeout', () => {
+      self.$modal.hide('query-dialog');
+    })
+  },
+  methods: {
+    showCancelDialog() {
+      let self = this;
+      this.$modal.show('query-dialog', {
+        title: 'Confirm Cancel?',
+        btn1_text: 'Yes',
+        btn2_text: 'No',
+        btn_action: function(btn_text) {
+            self.$modal.hide('query-dialog');
+            self.$fsm_manager.cancelResponse(btn_text === 'Yes');
+            }
+        })
+    }
+  }
+}
+</script>
+
 <style>
+body {
+  margin: 0;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+#app span em { font-size: 1.5em; font-weight:bold; color:yellow; float:right; }
+
+main {
   text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+  margin-top: 40px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+header {
+  margin: 0;
+  height: 56px;
+  padding: 0 16px 0 24px;
+  background-color: #35495E;
+  color: #ffffff;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+header span {
+  display: block;
+  position: relative;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: .02em;
+  font-weight: 400;
+  box-sizing: border-box;
+  padding-top: 16px;
 }
+
+@import "assets/css/styles.css";
+
 </style>

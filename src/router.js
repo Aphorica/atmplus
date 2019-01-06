@@ -1,25 +1,62 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Ready from '@/components/Ready';
+import Pin from '@/components/Pin';
+import ActionSelection from '@/components/ActionSelection';
+import AccountSelection from '@/components/AccountSelection';
+import Amount from '@/components/Amount';
+import TransactionAction from '@/components/TransactionAction';
+import TransactionCompleted from '@/components/TransactionCompleted';
+import ReturnCard from '@/components/ReturnCard';
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'ready',
+      component: Ready
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/ready',
+      name: 'ready',
+      component: Ready
+    },
+    {
+      path: '/pin',
+      name: 'pin',
+      component: Pin
+    },
+    {
+      path: '/action-selection',
+      name: 'action-selection',
+      component: ActionSelection
+    },
+    {
+      path: '/account-selection',
+      name: 'account-selection',
+      component: AccountSelection
+    },
+    {
+      path: '/amount',
+      name: 'amount',
+      component: Amount
+    },
+    {
+      path: '/transaction-verify',
+      name: 'transaction-verify',
+      component: TransactionAction
+    },
+    {
+      path: '/transaction-completed',
+      name: 'transaction-completed',
+      component: TransactionCompleted
+    },
+    {
+      path: '/return-card',
+      name: 'return-card',
+      component: ReturnCard
     }
   ]
 })
