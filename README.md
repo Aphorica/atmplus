@@ -42,4 +42,4 @@ looking for it, it's back online, now.
 Full documentation is here: https://aphorica.github.io/atmplus.
 
 ## Live Demo
-Live demo at https://demos.aphorica.com/atmplus.
+Live demo at http://demos.aphorica.com/atmplus.
