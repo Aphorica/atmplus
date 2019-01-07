@@ -2,6 +2,9 @@
 
 > ATM State Machine Demonstrator
 
+## Author
+Rick Berger, Aphorica, Inc <gbergeraph@gmail.com>
+
 ## Build Setup
 
 ``` bash
