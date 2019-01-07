@@ -6,7 +6,7 @@
 export default {
   name: 'Spinner',
   computed: {
-    imgSrc: function() { return process.env['ROOT_PATH'] + 'static/img/Rolling.svg'}
+    imgSrc: function() { return process.env['BASE_URL'] + 'img/Rolling.svg'}
   }
 }
 </script>

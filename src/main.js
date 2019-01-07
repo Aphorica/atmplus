@@ -4,7 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 
-import store from './store/store.js';
+import store from './store';
 import VModal from 'vue-js-modal';
 import VueMdl from 'vue-mdl';
 import ATM_FSM_Manager from './fsm/atm_fsm_manager.js';

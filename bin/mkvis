@@ -1,12 +1,10 @@
 #! /bin/sh
 DESTDIR='../docs/state_graphs'
-BABEL_ARGS='--no-babelrc --presets=env,stage-3'
-babel $BABEL_ARGS bin/visualize --out-file bin/visualize_run
-ex - bin/visualize_run << EDIT
-:/INTEROP
-:s/INTEROP/_interopRequireDefault/
-:wq
-EDIT
+echo $PATH
+exit
+BABEL_ARGS='--no-babelrc --presets="@babel/preset-env"' #,"stage-3"'
+npx babel $BABEL_ARGS bin/visualize --out-file bin/visualize_run
+exit
 chmod 755 bin/visualize_run
 ##
 pushd ./bin

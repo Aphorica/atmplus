@@ -56,10 +56,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .dialog-container { margin-left:auto; margin-right:auto; background-color:lightgray;
                       padding-bottom:20px; }
   .dialog-title { background: darkgray; color:white; padding:10px; margin-top:0;}
   .dialog-content { min-height: 3em;  }
-  button { width:initial; }
+  .mdl-button { width:initial; }
 </style>

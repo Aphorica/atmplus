@@ -1,6 +1,12 @@
 #body {display: flex; flex-direction:vertical}
 #atm-screen {height:18rem; }
-button { width:12em; }
+/* button { width:12em;} */
+.mdl-button {
+  width:10em;
+  margin-left:0.5em;
+  margin-right:0.5em;
+}
+
 .item-highlight { font-size:1.1em; font-style:italic; font-weight:bold; text-transform:capitalize; }
 .error { color:red; }
 .info { color: blue;}
